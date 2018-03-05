@@ -14,10 +14,13 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    static $password;
+
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'password' => $password ?: $password = bcrypt('123456'), // admin
+        'sex' => '男',
         'remember_token' => str_random(10),
     ];
 });
@@ -28,5 +31,21 @@ $factory->define(App\Model\Admin::class, function (Faker $faker) {
     return [
         'username' => $faker->name,
         'password' => $password ?: $password = bcrypt('admin'), // admin
+    ];
+});
+
+$factory->define(App\Model\Post::class, function (Faker $faker) {
+
+    return [
+        'user_id' => 1,
+        'category_id' =>1,
+        'title' => '这是测试贴',
+        'content' => "这是测试贴的内容",
+        'is_closed' =>0,
+        'is_top' =>0,
+        'is_sticky' =>0,
+        'renqi' =>0,
+        'status' =>0,
+        'reward' =>20,
     ];
 });
