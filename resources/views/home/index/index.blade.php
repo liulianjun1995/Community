@@ -35,7 +35,7 @@
                                 </span>
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                                 <span class="fly-list-nums">
-                                    <i class="iconfont icon-pinglun1" title="回答"></i> 66
+                                    <i class="iconfont icon-pinglun1" title="回答"></i> {{ $top->comments->count() }}
                                     <i class="iconfont" title="浏览"></i> {{ $top->renqi }}
                                 </span>
                             </div>
@@ -77,7 +77,8 @@
                                 <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> {{ $post->reward }}</span>
                                 <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
                                 <span class="fly-list-nums">
-                                <i class="iconfont icon-pinglun1" title="回答"></i> 66
+                                <i class="iconfont icon-pinglun1" title="回答"></i> {{ $post->comments->count() }}
+                                <i class="iconfont" title="浏览"></i> {{ $post->renqi }}
                             </span>
                             </div>
                             <div class="fly-list-badge">

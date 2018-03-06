@@ -21,6 +21,8 @@ Route::resource('post','PostController',['only' => [
 ]]);
 //获取版块
 Route::get('/getCategory','CategoryController@category');
+//贴子浏览次数+1
+Route::get('/set_hits','CommonController@set_hits');
 
 //用户相关操作
 Route::group(['prefix'=>'user'],function (){

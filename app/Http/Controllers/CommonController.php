@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use App\Model\Post;
 
 class CommonController extends Controller
 {
@@ -35,5 +36,14 @@ class CommonController extends Controller
 
         }
         return json_encode($result); //返回必须为json格式
+    }
+    //帖子浏览次数+1
+    public function set_hits()
+    {
+        $id = request('id');
+        $post = Post::findOrFail($id);
+        $renqi = $post->renqi;
+        $post->renqi = $renqi + 1;
+        $post->save();
     }
 }

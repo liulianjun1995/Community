@@ -28,8 +28,8 @@
                             <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
                         </div>
                         <span class="fly-list-nums">
-                            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> 66</a>
-                            <i class="iconfont" title="人气">&#xe60b;</i> 99999
+                            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $post->comments->count() }}</a>
+                            <i class="iconfont" title="人气">&#xe60b;</i> {{ $post->renqi }}
                         </span>
                     </div>
                     <div class="detail-about">
@@ -121,6 +121,18 @@
 
         </div>
     </div>
+    <script>
+        window.onload = function(){
+            $.ajax({
+                url:'{{ url('/set_hits') }}',
+                type:'get',
+                data:{'id':'{{ $post->id }}'},
+                success:function (res) {
+                    console.log(res);
+                }
+            });
+        }
+    </script>
     <script>
 
         $.ajaxSetup({

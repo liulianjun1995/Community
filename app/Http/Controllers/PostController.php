@@ -9,18 +9,21 @@ use Auth;
 
 class PostController extends Controller
 {
+
+    //发表帖子页面
     public function add(){
         $categorys = Category::all();
         return view('home.post.add',compact('categorys'));
     }
 
+    //帖子详情
     public function show($id)
     {
         $post = Post::where('id',$id)->first();
         return view('home.post.detail',compact('post'));
     }
 
-    //发布新帖
+    //发布新帖逻辑
     public function store()
     {
         $validator  = Validator::make(request()->all(),[
