@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\Comment;
+use App\Model\Zan;
 use Request;
 use Validator;
+use Auth;
 
 class CommentController extends Controller
 {
@@ -39,5 +41,42 @@ class CommentController extends Controller
                 'msg' => '评论失败，请稍后重试'
             ];
         }
+    }
+    //点赞评论
+    public function zan($comment_id){
+        $zan = new Zan();
+        $zan->user_id = Auth::id();
+        $zan->comment_id = $comment_id;
+        $status = $zan->save();
+        if ($status){
+            return [
+                'error'=>'1',
+                'msg'=>''
+            ];
+        }else{
+            return [
+                'error'=>'0',
+                'msg'=>'点赞失败，请稍后重试'
+            ];
+        }
+
+    }
+    //取消赞评论
+    public function unzan($comment_id){
+
+        $status = Zan::where('user_id',Auth::id())->where('comment_id',$comment_id)->delete();
+
+        if ($status){
+            return [
+                'error'=>'1',
+                'msg'=>''
+            ];
+        }else{
+            return [
+                'error'=>'0',
+                'msg'=>'取消赞失败，请稍后重试'
+            ];
+        }
+
     }
 }

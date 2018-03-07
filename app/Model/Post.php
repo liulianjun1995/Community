@@ -33,4 +33,6 @@ class Post extends Model
         return $this->hasMany('App\Model\Comment')->orderBy('created_at','desc');
     }
 
+
+
 }

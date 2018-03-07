@@ -21,8 +21,6 @@ Route::resource('post','PostController',['only' => [
 ]]);
 //获取版块
 Route::get('/getCategory','CategoryController@category');
-//贴子浏览次数+1
-Route::get('/set_hits','CommonController@set_hits');
 
 //用户相关操作
 Route::group(['prefix'=>'user'],function (){
@@ -46,6 +44,10 @@ Route::group(['prefix'=>'user'],function (){
     Route::post('/uploadImg','CommonController@file_up');
     //发出评论
     Route::post('/doComment','CommentController@doComment');
+    //赞评论
+    Route::get('/{id}/zan','CommentController@zan');
+    //取消z赞
+    Route::get('/{id}/unzan','CommentController@unzan');
 });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Zan;
 use Validator;
 use App\Model\Category;
 use App\Model\Post;
@@ -19,6 +20,11 @@ class PostController extends Controller
     //帖子详情
     public function show($id)
     {
+        $post = Post::findOrFail($id);
+        $renqi = $post->renqi;
+        $post->renqi = $renqi + 1;
+        $post->save();
+
         $post = Post::where('id',$id)->first();
         return view('home.post.detail',compact('post'));
     }
@@ -28,7 +34,7 @@ class PostController extends Controller
     {
         $validator  = Validator::make(request()->all(),[
             'category' => 'required',
-            'title' => 'required|min:5|max:20',
+            'title' => 'required|min:5|max:50',
             'my-editormd-html-code' => 'required',
             'reward' => 'required|integer',
         ]);
@@ -48,5 +54,7 @@ class PostController extends Controller
             }
         }
     }
+
+
 
 }

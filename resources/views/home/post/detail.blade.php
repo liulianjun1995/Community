@@ -48,7 +48,10 @@
                         </div>
                     </div>
                     <div class="detail-body photos">
-                      {!! $post->content !!}
+                        <div id="doc-content">
+                            <textarea style="display:none;">{!! $post->content !!}</textarea>
+                        </div>
+
                     </div>
                 </div>
 
@@ -58,6 +61,7 @@
                     </fieldset>
 
                     <ul class="jieda" id="jieda">
+                        @if($post->comments->count()>0)
                         @foreach($post->comments as $comment)
                         <li data-id="111">
                             <a name="item-1111111111"></a>
@@ -78,9 +82,13 @@
                                 <p>{!! $comment->content !!}</p>
                             </div>
                             <div class="jieda-reply">
-                                <span class="jieda-zan" type="zan">
+                                @if($comment->zan(Auth::id())->exists())
+                                <span class="jieda-zan zanok" type="zan" onclick="unzan(this,{{ $comment->id }})">
+                                @else
+                                <span class="jieda-zan" type="zan" onclick="dozan(this,{{ $comment->id }})">
+                                @endif
                                     <i class="iconfont icon-zan"></i>
-                                    <em>0</em>
+                                    <span>{{ $comment->zans->count() }}</span>
                                 </span>
                                 <span type="reply">
                                     <i class="iconfont icon-svgmoban53"></i>
@@ -94,8 +102,10 @@
                             </div>
                         </li>
                         @endforeach
+                        @else
                         <!-- 无数据时 -->
-                        <!-- <li class="fly-none">消灭零回复</li> -->
+                        <li class="fly-none">消灭零回复</li>
+                        @endif
                     </ul>
 
                     <div class="layui-form layui-form-pane">
@@ -109,8 +119,11 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <input type="hidden" name="jid" value="123">
+                                @login
                                 <button class="layui-btn" lay-filter="reply" lay-submit>提交回复</button>
+                                @else
+                                <button class="layui-btn" type="button"  onclick="layer.msg('请先登录')">提交回复</button>
+                                @endlogin
                             </div>
                         </form>
                     </div>
@@ -122,19 +135,20 @@
         </div>
     </div>
     <script>
-        window.onload = function(){
-            $.ajax({
-                url:'{{ url('/set_hits') }}',
-                type:'get',
-                data:{'id':'{{ $post->id }}'},
-                success:function (res) {
-                    console.log(res);
-                }
-            });
-        }
+        var testEditor;
+        $(function () {
+            testEditor = editormd.markdownToHTML("doc-content", {//注意：这里是上面DIV的id
+                htmlDecode: "style,script,iframe",
+                emoji: true,
+                taskList: true,
+                tex: true, // 默认不解析
+                flowChart: true, // 默认不解析
+                sequenceDiagram: true, // 默认不解析
+                codeFold: true
+            });});
     </script>
-    <script>
 
+    <script>
         $.ajaxSetup({
             headers:{
                 'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
@@ -200,5 +214,49 @@
                 event.preventDefault();
             });
         });
+
+        //点赞
+        function dozan(obj,id) {
+            var target = $(obj);
+            //alert(id);
+            $.ajax({
+                url:'/user/'+id+'/zan',
+                type:'get',
+                dataType:'json',
+                success:function (res) {
+                    if(res.error==1){
+                        target.addClass('zanok');
+                        var zanNum = target.children('span').text();
+                        target.children('span').text(parseInt(zanNum)+1);
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+
+
+        }
+
+        //取消赞
+        function unzan(obj,id) {
+            var target = $(obj);
+            $.ajax({
+                url:'/user/'+id+'/unzan',
+                type:'get',
+                dataType:'json',
+                success:function (res) {
+                    if(res.error==1){
+                        target.removeClass('zanok');
+                        var zanNum = target.children('span').text();
+                        target.children('span').text(parseInt(zanNum)-1);
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+
+
+        }
+        
     </script>
 @endsection

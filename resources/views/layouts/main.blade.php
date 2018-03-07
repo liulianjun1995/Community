@@ -33,6 +33,7 @@
     <li class="layui-icon" lay-type="bar1"></li>
     <li class="layui-icon layui-fixbar-top" style="display: none;" onclick="$(document).scrollTop(0)"></li>
 </ul>
+
 <script>
     function scroll() {
         //变量t是滚动条滚动时，距离顶部的距离
@@ -70,8 +71,8 @@
 <script src="{{ asset('/assets/editormd/lib/prettify.min.js') }}"></script>
 <script src="{{ asset('/assets/editormd/lib/raphael.min.js') }}"></script>
 <script src="{{ asset('/assets/editormd/lib/underscore.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/flowchart.min.js') }}"></script>
 <script src="{{ asset('/assets/editormd/lib/sequence-diagram.min.js') }}"></script>
+<script src="{{ asset('/assets/editormd/lib/flowchart.min.js') }}"></script>
 <script src="{{ asset('/assets/editormd/lib/jquery.flowchart.min.js') }}"></script>
 <script src="{{ asset('/assets/editormd/editormd.js') }}"></script>
 

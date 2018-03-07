@@ -58,9 +58,13 @@
     </div>
     <a href="#" style="margin-left: 200px;color: ;">我发表的贴</a>
     <a href="#" style="margin-left: 50px">我收藏的贴</a>
+    @login
     <a href="/post/add" class="layui-btn" style="float: right">发表新帖</a>
+    @else
+    <a href="javascript:void(0)" class="layui-btn" style="float: right" onclick="layer.msg('请先登录')">发表新帖</a>
+    @endlogin
     <script>
-        //监听input点击火车事件
+        //监听input点击事件
         window.onload=function (ev) {
             $("#searchInput").keydown(function (event) {
                 if(event.keyCode==13){
