@@ -34,8 +34,8 @@
                 <li class="layui-nav-item">
                     <a class="fly-nav-avatar" href="javascript:;">
                         <cite class="layui-hide-xs">{{ Auth::user()->name }}</cite>
-                        <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：lxshequ 作者"></i>
-                        <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
+                        {{--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：lxshequ 作者"></i>--}}
+                        {{--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>--}}
                         <img src="{{ Auth::user()->avatar }}">
                     </a>
                     <dl class="layui-nav-child">

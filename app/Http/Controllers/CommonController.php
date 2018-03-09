@@ -26,7 +26,7 @@ class CommonController extends Controller
                 //如果选择文件成功上传
                 $result['success'] = 1;
                 $result['message'] = '上传成功';
-                $result['url'] = $filepath;
+                $result['url'] = "$filepath";
             }else{
                 //如果选择文件上传失败
                 $result['success'] = 0;

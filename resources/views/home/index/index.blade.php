@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('container')
-
     @include('layouts.panel')
     <div class="layui-container content">
         <div class="layui-row layui-col-space15">
@@ -19,13 +18,11 @@
                                 <img src="{{ $top->user->avatar }}" width="50px" height="50px" style="display: inline-block" alt="/{{ $top->user->name }}">
                             </a>
                             <h2>
-                                <sapn>
-                                    <a class="layui-badge" style="{{ $top->category->tip_style }}">{{ $top->category->name }}</a>
-                                </sapn>
+                                <span class="layui-badge layui-bg-orange" style="top: -8px;border: none;">置顶</span>
                                 <a href="/post/{{ $top->id }}">{{ $top->title }}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="/post/{{ $top->id }}" link>
+                                <a href="/post/{{ $top->id }}" >
                                     <cite>{{ $top->user->name }}</cite>
                                 </a>
                                 <span>{{ $top->created_at->diffForHumans() }}</span>
@@ -60,12 +57,12 @@
                             </a>
                             <h2>
                                 <sapn>
-                                    <a class="layui-badge" style="{{ $post->category->tip_style }}">{{ $post->category->name }}</a>
+                                    <a class="layui-badge" style="{{ $post->category->tip_style }};border: none;">{{ $post->category->name }}</a>
                                 </sapn>
                                 <a href="/post/{{ $post->id }}">{{ $post->title }}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="user/home.html" link>
+                                <a href="/user/home" link>
                                     <cite>{{ $post->user->name }}</cite>
                                     <!--
                                     <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>

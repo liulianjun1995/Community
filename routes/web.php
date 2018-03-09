@@ -13,12 +13,12 @@
 
 //前台首页
 Route::get('/','HomeController@index');
-//发表帖子页面
-Route::get('/post/add','PostController@add');
+
 //帖子详情
 Route::resource('post','PostController',['only' => [
     'show','store'
 ]]);
+
 //获取版块
 Route::get('/getCategory','CategoryController@category');
 
@@ -32,22 +32,34 @@ Route::group(['prefix'=>'user'],function (){
     Route::get('/reg','HomeController@regIndex');
     //注册逻辑
     Route::post('/reg','HomeController@reg');
-    //退出登录
-    Route::get('/logout','HomeController@logout');
-    //设置页面
-    Route::get('/set','UserController@set');
-    //修改个人资料
-    Route::post('/info','UserController@info');
-    //上传头像
-    Route::post('/upload','UserController@upload');
-    //上传图片
-    Route::post('/uploadImg','CommonController@file_up');
-    //发出评论
-    Route::post('/doComment','CommentController@doComment');
-    //赞评论
-    Route::get('/{id}/zan','CommentController@zan');
-    //取消z赞
-    Route::get('/{id}/unzan','CommentController@unzan');
+
+    //需要用户登录验证
+    Route::group(['middleware'=>'checkLogin'],function (){
+        //退出登录
+        Route::get('/logout','HomeController@logout');
+        //设置页面
+        Route::get('/set','UserController@set');
+        //修改个人资料
+        Route::post('/info','UserController@info');
+        //上传头像
+        Route::post('/upload','UserController@upload');
+        //上传图片
+        Route::post('/uploadImg','CommonController@file_up');
+        //用户中心
+        Route::get('/index','UserController@index');
+        //我的主页
+        Route::get('/home','UserController@home');
+        //发表帖子页面
+        Route::get('/post/add','PostController@add');
+        //发出评论
+        Route::post('/doComment','CommentController@doComment');
+        //赞评论
+        Route::get('/{id}/zan','CommentController@zan');
+        //取消z赞
+        Route::get('/{id}/unzan','CommentController@unzan');
+    });
+
+
 });
 
 

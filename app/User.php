@@ -17,7 +17,7 @@ class User extends Authenticatable
      * 我的评论
      */
     public function comments(){
-        return $this->hasMany('App\Model\Comment','user_id','id');
+        return $this->hasMany('App\Model\Comment','user_id','id')->orderBy('created_at','desc');
     }
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      */
     public function posts()
     {
-        return $this->hasMany('App\Model\Post','post_id','id');
+        return $this->hasMany('App\Model\Post','user_id','id');
     }
 
 }

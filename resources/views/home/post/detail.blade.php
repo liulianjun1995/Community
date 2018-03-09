@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('container')
+    <style>
+        #doc-content{
+            padding: 10px;
+        }
+    </style>
     <div class="layui-container">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8 content detail">
@@ -13,7 +18,7 @@
                         <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
                         <sapn><a class="layui-badge" style="{{ $post->category->tip_style }}">{{ $post->category->name }}</a></sapn>
                         @if($post->is_top == 1)
-                        <span class="layui-badge layui-bg-black">置顶</span>
+                        <span class="layui-badge layui-bg-orange">置顶</span>
                         @endif
                         @if($post->is_sticky == 1)
                         <span class="layui-badge layui-bg-red">精帖</span>
@@ -79,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="detail-body jieda-body photos">
-                                <p>{!! $comment->content !!}</p>
+                                {!! $comment->content !!}
                             </div>
                             <div class="jieda-reply">
                                 @if($comment->zan(Auth::id())->exists())
@@ -164,7 +169,7 @@
                 var fm = document.getElementById('replyForm');
                 var fd = new FormData(fm);
                 fd.append('post_id',{{ $post->id }});
-                fd.append('user_id',{{ $post->user->id }});
+                fd.append('user_id',{{ Auth::id() }});
                 if($('#my-editormd-markdown-doc').val().length<5){
                     layer.msg('评论至少得5个字符', function(){
                         //关闭后的操作
@@ -258,5 +263,10 @@
 
         }
         
+    </script>
+    <script>
+        $(function () {
+            $('a[href]').attr('target','_blank');
+        });
     </script>
 @endsection

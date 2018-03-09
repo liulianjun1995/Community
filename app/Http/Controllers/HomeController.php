@@ -14,7 +14,7 @@ class HomeController extends Controller
     public function index()
     {
         $tops = Post::where('is_top','1')->take(2)->get();
-        $posts = Post::paginate(10);
+        $posts = Post::where('is_top','0')->paginate(10);
         $categorys = Category::all();
         return view('home.index.index',compact('tops','categorys','posts'));
     }
@@ -73,7 +73,7 @@ class HomeController extends Controller
     public function logout()
     {
         Auth::logout();
-        return view('home.index.index');
+        return redirect('/');
     }
 }
 

@@ -2,43 +2,7 @@
 
 @section('container')
   <div class="layui-container fly-marginTop fly-user-main">
-  <ul class="layui-nav layui-nav-tree layui-inline">
-    <li class="layui-nav-item">
-      <a href="home.html">
-        <i class="layui-icon">&#xe609;</i>
-        我的主页
-      </a>
-    </li>
-    <li class="layui-nav-item">
-      <a href="index.html">
-        <i class="layui-icon">&#xe612;</i>
-        用户中心
-      </a>
-    </li>
-    <li class="layui-nav-item layui-this">
-      <a href="{{ url('/user/set') }}">
-        <i class="layui-icon">&#xe620;</i>
-        基本设置
-      </a>
-    </li>
-    <li class="layui-nav-item">
-      <a href="message.html">
-        <i class="layui-icon">&#xe611;</i>
-        我的消息
-      </a>
-    </li>
-  </ul>
-
-  <div class="site-tree-mobile layui-hide">
-    <i class="layui-icon">&#xe602;</i>
-  </div>
-  <div class="site-mobile-shade"></div>
-
-  <div class="site-tree-mobile layui-hide">
-    <i class="layui-icon">&#xe602;</i>
-  </div>
-  <div class="site-mobile-shade"></div>
-
+  @include('home.user.main')
 
   <div class="fly-panel fly-panel-user">
     <div class="layui-tab layui-tab-brief">
@@ -73,7 +37,7 @@
             <div class="layui-form-item">
               <label for="L_city" class="layui-form-label">城市</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_city" name="city" autocomplete="off" value="{{ Auth::user()->city }}" class="layui-input">
+                <input type="text" id="L_city" name="city" autocomplete="off" value="" class="layui-input">
               </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -95,7 +59,7 @@
               <button type="button" class="layui-btn upload-img">
                 <i class="layui-icon">&#xe67c;</i>上传头像
               </button>
-              <img class="img-upload-view" src="/{{ Auth::user()->avatar }}">
+              <img class="img-upload-view" src="{{ Auth::user()->avatar }}">
               <span class="loading"></span>
             </div>
           </div>

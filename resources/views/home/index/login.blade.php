@@ -1,6 +1,16 @@
 @extends('layouts.main')
 
 @section('container')
+    @if(count($errors) > 0)
+        @foreach($errors->all() as $error)
+            <script>
+                layer.msg('{{ $error }}', {
+                    time: 1000
+                    ,shade: 0.2
+                });
+            </script>
+        @endforeach
+    @endif
   <div class="layui-container fly-marginTop">
     <div class="fly-panel fly-panel-user" pad20>
       <div class="layui-tab layui-tab-brief" lay-filter="user">
