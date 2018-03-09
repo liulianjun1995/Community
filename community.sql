@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2018-03-09 12:03:25
+-- Generation Time: 2018-03-09 12:18:53
 -- 服务器版本： 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `admins`
 --
+-- 创建时间： 2018-03-06 11:18:57
+--
 
 CREATE TABLE `admins` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -35,6 +37,10 @@ CREATE TABLE `admins` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `admins`:
+--
 
 --
 -- 转存表中的数据 `admins`
@@ -50,6 +56,8 @@ INSERT INTO `admins` (`id`, `username`, `password`, `created_at`, `updated_at`) 
 --
 -- 表的结构 `categories`
 --
+-- 创建时间： 2018-03-06 11:18:57
+--
 
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -60,6 +68,10 @@ CREATE TABLE `categories` (
   `tip_style` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL COMMENT '状态:启用|未启用'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `categories`:
+--
 
 --
 -- 转存表中的数据 `categories`
@@ -76,6 +88,8 @@ INSERT INTO `categories` (`id`, `name`, `img`, `describe`, `style`, `tip_style`,
 --
 -- 表的结构 `comments`
 --
+-- 创建时间： 2018-03-06 11:18:57
+--
 
 CREATE TABLE `comments` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -85,6 +99,10 @@ CREATE TABLE `comments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `comments`:
+--
 
 --
 -- 转存表中的数据 `comments`
@@ -105,12 +123,18 @@ INSERT INTO `comments` (`id`, `user_id`, `post_id`, `content`, `created_at`, `up
 --
 -- 表的结构 `migrations`
 --
+-- 创建时间： 2018-03-06 11:18:57
+--
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `migrations`:
+--
 
 --
 -- 转存表中的数据 `migrations`
@@ -130,6 +154,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 -- 表的结构 `posts`
 --
+-- 创建时间： 2018-03-06 11:18:57
+--
 
 CREATE TABLE `posts` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -148,6 +174,10 @@ CREATE TABLE `posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- RELATIONSHIPS FOR TABLE `posts`:
+--
+
+--
 -- 转存表中的数据 `posts`
 --
 
@@ -163,6 +193,8 @@ INSERT INTO `posts` (`id`, `user_id`, `category_id`, `title`, `content`, `is_top
 
 --
 -- 表的结构 `users`
+--
+-- 创建时间： 2018-03-09 07:27:05
 --
 
 CREATE TABLE `users` (
@@ -185,6 +217,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- RELATIONSHIPS FOR TABLE `users`:
+--
+
+--
 -- 转存表中的数据 `users`
 --
 
@@ -199,6 +235,8 @@ INSERT INTO `users` (`id`, `name`, `password`, `email`, `city`, `avatar`, `sex`,
 --
 -- 表的结构 `zans`
 --
+-- 创建时间： 2018-03-07 12:04:37
+--
 
 CREATE TABLE `zans` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -207,6 +245,10 @@ CREATE TABLE `zans` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `zans`:
+--
 
 --
 -- 转存表中的数据 `zans`
