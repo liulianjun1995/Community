@@ -74,6 +74,17 @@ class UserController extends Controller
     {
         return view('home.user.home');
     }
+    //其他用户主页
+    public function userHome($id)
+    {
+        return view('home.user.home');
+    }
+    //活跃榜
+    public function getActiveRank()
+    {
+        $users = User::has('comments', '>=', 1)->withCount('comments')->orderBy('comments_count','desc')->get();
+        return $users;
+    }
 
     function showMsg($status,$message = '',$data = array()){
         $result = array(

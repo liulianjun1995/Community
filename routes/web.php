@@ -10,14 +10,24 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/test','CommonController@test');
 //前台首页
 Route::get('/','HomeController@index');
-
+//热门帖子
+Route::get('hotPosts','PostController@hotPosts');
+//获取活跃榜
+Route::get('getActiveRank','UserController@getActiveRank');
+//获取公告
+Route::get('getGonggao','PostController@getGonggao');
 //帖子详情
 Route::resource('post','PostController',['only' => [
     'show','store'
 ]]);
+
+
+//某个版块下的帖子
+Route::get('/category/{id}','CategoryController@posts');
+
 
 //获取版块
 Route::get('/getCategory','CategoryController@category');
@@ -32,6 +42,8 @@ Route::group(['prefix'=>'user'],function (){
     Route::get('/reg','HomeController@regIndex');
     //注册逻辑
     Route::post('/reg','HomeController@reg');
+    //其他用户主页
+    Route::get('/{id}/home','UserController@userHome');
 
     //需要用户登录验证
     Route::group(['middleware'=>'checkLogin'],function (){
@@ -55,10 +67,9 @@ Route::group(['prefix'=>'user'],function (){
         Route::post('/doComment','CommentController@doComment');
         //赞评论
         Route::get('/{id}/zan','CommentController@zan');
-        //取消z赞
+        //取消赞
         Route::get('/{id}/unzan','CommentController@unzan');
     });
-
 
 });
 

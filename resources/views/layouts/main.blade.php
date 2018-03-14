@@ -30,7 +30,11 @@
 
 {{-- top锚点 --}}
 <ul class="layui-fixbar">
-    <li class="layui-icon" lay-type="bar1"></li>
+    @login
+    <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/add') }}'"></li>
+    @else
+    <li class="layui-icon" lay-type="bar1" onclick="layer.msg('请先登录')"></li>
+    @endlogin
     <li class="layui-icon layui-fixbar-top" style="display: none;" onclick="$(document).scrollTop(0)"></li>
 </ul>
 
@@ -47,34 +51,9 @@
         }
     }
 </script>
-{{-- 创建一个富文本 --}}
-<script type="text/javascript">
-    $(function() {
-        editormd("my-editormd", {//注意1：这里的就是上面的DIV的id属性值
-            width   : "100%",
-            height  : 640,
-            emoji: true,
-            syncScrolling : "single",
-            tex: true,// 开启科学公式TeX语言支持，默认关闭
-            path    : "{{ asset('/assets/editormd/lib') }}/",//注意2：你的路径
-            saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
-            imageUpload : true,
-            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL : "/user/uploadImg",//注意你后端的上传图片服务地址
+<script src="{{ asset('/assets/js/canvas.js') }}"></script>
 
-        });
-    });
-</script>
-
-<script src="{{ asset('/assets/js/home.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/marked.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/prettify.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/raphael.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/underscore.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/sequence-diagram.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/flowchart.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/lib/jquery.flowchart.min.js') }}"></script>
-<script src="{{ asset('/assets/editormd/editormd.js') }}"></script>
+@yield('js')
 
 </body>
 </html>

@@ -146,7 +146,6 @@
               processData:false,
               contentType:false,
               success:function (res) {
-                  alert(res);
                   if(res ==1 ){
                       layer.msg('修改成功', {
                           icon: 1

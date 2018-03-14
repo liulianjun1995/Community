@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Model\Post;
-
+use Illuminate\Support\Facades\Redis;
+use Mail;
+use Toplan\PhpSms\Sms;
 class CommonController extends Controller
 {
     //文件上传
@@ -36,6 +39,20 @@ class CommonController extends Controller
 
         }
         return json_encode($result); //返回必须为json格式
+    }
+    
+
+
+    public function test()
+    {
+        /*
+        Mail::raw('恭喜你注册成功！',function ($message){
+            $message->subject('激活邮件');
+            $message->to('903993979@qq.com');
+        });
+        */
+
+
     }
 
 }

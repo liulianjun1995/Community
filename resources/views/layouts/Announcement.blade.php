@@ -1,17 +1,25 @@
-<div class="fly-panel">
-    <h3 class="fly-panel-title">官方公告</h3>
-    <ul class="fly-panel-main fly-list-static">
-        <li style="list-style: none">
-            <span class="layui-badge layui-bg-orange">1</span>
-            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
-        </li>
-        <li style="list-style: none">
-            <span class="layui-badge layui-bg-orange">2</span>
-            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
-        </li>
-        <li style="list-style: none">
-            <span class="layui-badge layui-bg-orange">3</span>
-            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
-        </li>
-    </ul>
+<div class="fly-panel" id="getGonggao">
+
 </div>
+
+<script>
+    $.ajax({
+        url:'/getGonggao',
+        type:'get',
+        dataType:'json',
+        success:function (res) {
+            var s = "<h3 class=\"fly-panel-title\">官方公告</h3>";
+            s += "<ul class=\"fly-panel-main fly-list-static\">";
+            if(res.length>0){
+                for(var i = 0;i < res.length;i++){
+                    s += "<li style=\"list-style: none\">";
+                    s += "<span class=\"layui-badge layui-bg-orange\">"+(i+1)+"</span>";
+                    s += "<a href=\"/post/"+res[i].id+"\" target=\"_blank\">&nbsp;"+res[i].title+"</a>";
+                    s += "</li>";
+                }
+                s += "</ul>";
+            }
+            $("#getGonggao").html(s);
+        }
+    });
+</script>

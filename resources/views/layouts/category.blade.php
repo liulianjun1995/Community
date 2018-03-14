@@ -54,7 +54,7 @@
             var s = "";
             for(var i = 0;i<res.length;i++){
                 s += "<div class=\"x112 xs6 xm3\"><div class=\"category\"><dl><dt>";
-                s += "<a href=\"#\">";
+                s += "<a href=\"/category/"+res[i].id+"\">";
                 s += "<img src=\""+ res[i].img +"\" width=\"60px\" height=\"60px\" alt=\""+ res[i].name +"\"></a></dt>";
                 s += "<dd><p><a class=\"title\" href=\"#\" style=\""+res[i].style+"\">"+res[i].name+"</a></p>";
                 s += "<span>"+res[i].describe+"</span></dd>";

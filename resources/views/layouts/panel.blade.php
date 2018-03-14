@@ -55,6 +55,7 @@
             <i class="iconfont icon-sousuo" onclick="search($('#searchInput').val())"></i>
             <input style="height: 34px;margin-top: 6px;font-size: 14px" id="searchInput" class="layui-input" autocomplete="off" placeholder="搜索内容" maxlength="10" type="text">
         </div>
+        <button id="sendVerifySmsButton">发送邮件</button>
     </div>
     <a href="#" style="margin-left: 200px;color: ;">我发表的贴</a>
     <a href="#" style="margin-left: 50px">我收藏的贴</a>
@@ -72,7 +73,7 @@
                     search(input);
                 }
             })
-        }
+        };
         //搜索
         function search(input) {
             //搜索操作
@@ -83,6 +84,30 @@
             }
         }
     </script>
+
+        <script src="{{ asset('/assets/js/laravel-sms.js') }}"></script>
+        <script>
+            $("#sendVerifySmsButton").sms({
+                //laravel csrf token
+                token: "{{ csrf_token() }}",
+                //请求间隔时间
+                interval    : 60,
+                //请求参数
+                requestData : {
+                    //手机号
+                    mobile : function () {
+                        return "15939745521";
+                    },
+                    //手机号的检测规则
+                    mobile_rule : 'mobile_required'
+                },
+                //消息展示方式(默认为alert)
+                notify      : function (msg, type) {
+                    layer.msg(msg);
+                },
+
+            });
+        </script>
 </div>
 
 

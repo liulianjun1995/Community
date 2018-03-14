@@ -1,8 +1,7 @@
 @extends('layouts.main')
 @section('container')
 <div class="fly-home fly-panel" style="background-image: url();">
-  <img src="{{ Auth::user()->avatar }}" alt="贤心">
-  <i class="iconfont icon-renzheng" title="Fly社区认证"></i>
+  <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}">
   <h1>
     {{ Auth::user()->name }}
     <i class="iconfont @if(Auth::user()->sex == '男') icon-nan @else icon-nv @endif"></i>
@@ -24,11 +23,6 @@
   </p>
 
   <p class="fly-home-sign">（{!! Auth::user()->sign !!}）</p>
-
-  <div class="fly-sns" data-user="">
-    <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">加为好友</a>
-    <a href="javascript:;" class="layui-btn layui-btn-normal fly-imActive" data-type="chat">发起会话</a>
-  </div>
 
 </div>
 

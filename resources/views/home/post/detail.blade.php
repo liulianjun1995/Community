@@ -34,7 +34,7 @@
                         </div>
                         <span class="fly-list-nums">
                             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $post->comments->count() }}</a>
-                            <i class="iconfont" title="人气">&#xe60b;</i> {{ $post->renqi }}
+                            <i class="iconfont" title="浏览">&#xe60b;</i> {{ $post->view_count }}
                         </span>
                     </div>
                     <div class="detail-about">
@@ -135,7 +135,9 @@
                 </div>
             </div>
 
-            @include('layouts.right')
+            <div class="layui-col-md4">
+                @include('layouts.right')
+            </div>
 
         </div>
     </div>
@@ -260,13 +262,45 @@
                 }
             });
 
-
         }
         
     </script>
     <script>
+        //给帖子内容的超链接加上target
         $(function () {
-            $('a[href]').attr('target','_blank');
+            $('#doc-content a[href]').attr('target','_blank');
         });
     </script>
+
+    @section('js')
+        {{-- 创建一个富文本 --}}
+        <script type="text/javascript">
+            $(function() {
+                editormd("my-editormd", {//注意1：这里的就是上面的DIV的id属性值
+                    width   : "100%",
+                    height  : 640,
+                    emoji: true,
+                    syncScrolling : "single",
+                    tex: true,// 开启科学公式TeX语言支持，默认关闭
+                    path    : "{{ asset('/assets/editormd/lib') }}/",//注意2：你的路径
+                    saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
+                    imageUpload : true,
+                    imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL : "/user/uploadImg",//注意你后端的上传图片服务地址
+
+                });
+            });
+        </script>
+
+        <script src="{{ asset('/assets/js/home.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/marked.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/prettify.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/raphael.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/underscore.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/sequence-diagram.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/flowchart.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/lib/jquery.flowchart.min.js') }}"></script>
+        <script src="{{ asset('/assets/editormd/editormd.js') }}"></script>
+    @endsection
+
 @endsection

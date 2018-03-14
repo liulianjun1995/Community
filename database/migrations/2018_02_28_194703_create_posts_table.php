@@ -24,7 +24,7 @@ class CreatePostsTable extends Migration
             $table->tinyInteger('is_closed')->default(0)->comment('是否结贴');
             $table->tinyInteger('is_sticky')->default(0)->comment('是否加精');
             $table->tinyInteger('is_top')->default(0)->comment('是否置顶');
-            $table->tinyInteger('renqi')->default(0)->comment('帖子人气');
+            $table->tinyInteger('view_count')->default(0)->comment('帖子浏览次数');
             $table->tinyInteger('status')->default(0)->comment('帖子状态');
             $table->tinyInteger('reward')->comment('悬赏');
             $table->timestamps();

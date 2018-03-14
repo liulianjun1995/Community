@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->comment('头像');
             $table->enum('sex',['男','女'])->default('男');
             $table->string('sign')->comment('个人签名');
+            $table->tinyInteger('reward')->default('0');
             $table->char('is_signed')->default('0')->comment('是否已签到');
             $table->time('last_sing_time')->comment('上次签到时间');
             $table->time('sing_time')->comment('签到时间');

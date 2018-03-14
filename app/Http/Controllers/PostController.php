@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostViewEvent;
+use App\Listeners\PostEventListener;
 use App\Model\Zan;
 use Validator;
 use App\Model\Category;
 use App\Model\Post;
 use Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -17,15 +20,21 @@ class PostController extends Controller
         return view('home.post.add',compact('categorys'));
     }
 
+    const modelCacheExpires = 1;
     //帖子详情
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        $renqi = $post->renqi;
-        $post->renqi = $renqi + 1;
-        $post->save();
+        //Redis缓存中没有该post,则从数据库中取值,并存入Redis中,该键值key='post:cache'.$id生命时间1分钟
+        $post = Cache::remember('post:cache:'.$id,self::modelCacheExpires,function () use ($id){
+            return Post::whereId($id)->first();
+        });
 
-        $post = Post::where('id',$id)->first();
+        //获取客户端请求的ip
+        $ip = request()->ip();
+
+        //触发浏览次数统计时间
+        event(new PostViewEvent($post,$ip));
+
         return view('home.post.detail',compact('post'));
     }
 
@@ -55,6 +64,17 @@ class PostController extends Controller
         }
     }
 
+    //热门帖子
+    public function hotPosts()
+    {
+        $hotPosts = Post::has('comments', '>=', 3)->withCount('comments')->orderBy('comments_count','desc')->get();
+        return $hotPosts;
+    }
 
+    //获取公告
+    public function getGonggao(){
+        $post = Post::where('category_id',4)->take(4)->get();
+        return $post;
+    }
 
 }

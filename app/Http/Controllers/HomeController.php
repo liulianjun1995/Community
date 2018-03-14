@@ -6,6 +6,7 @@ use App\Model\Post;
 use App\User;
 use Auth;
 use Validator;
+use Mail;
 
 
 class HomeController extends Controller
@@ -13,10 +14,15 @@ class HomeController extends Controller
     //首页
     public function index()
     {
-        $tops = Post::where('is_top','1')->take(2)->get();
+
+        if (!session()->get('tops')){
+            $tops = Post::where('is_top','1')->take(2)->get();
+            session()->put('tops',$tops);
+        }
+
         $posts = Post::where('is_top','0')->paginate(10);
-        $categorys = Category::all();
-        return view('home.index.index',compact('tops','categorys','posts'));
+
+        return view('home.index.index',compact('posts'));
     }
     //登录页面
     public function loginIndex()
@@ -63,6 +69,7 @@ class HomeController extends Controller
         $password = bcrypt(request('password'));
 
         if(User::create(compact('email','name','password'))){
+
             return 1;
         }else{
             return 0;

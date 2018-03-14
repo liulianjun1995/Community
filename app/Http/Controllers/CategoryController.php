@@ -12,4 +12,13 @@ class CategoryController extends Controller
     public function category(){
         return Category::all();
     }
+
+    /**
+     * 版块下的帖子
+     */
+    public function posts($category_id){
+        $posts =  Category::find($category_id)->posts()->paginate(10);
+        return view('home.index.index',compact('posts'));
+    }
+
 }

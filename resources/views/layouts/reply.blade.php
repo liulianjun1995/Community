@@ -1,27 +1,26 @@
-<div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
-    <h3 class="fly-panel-title">回贴周榜</h3>
-    <dl>
-        <!--<i class="layui-icon fly-loading">&#xe63d;</i>-->
-        <dd>
-            <a href="user/home.html">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-            </a>
-        </dd>
-        <dd>
-            <a href="user/home.html">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-            </a>
-        </dd>
-        <dd>
-            <a href="user/home.html">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-            </a>
-        </dd>
-        <dd>
-            <a href="user/home.html">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-            </a>
-        </dd>
+<div class="fly-panel fly-rank fly-rank-active" id="activeRank">
 
-    </dl>
 </div>
+
+<script>
+    $.ajax({
+        url:'/getActiveRank',
+        type:'get',
+        dataType:'json',
+        success:function (res) {
+            var s =  '<h3 class="fly-panel-title">回贴周榜</h3><dl>';
+            if(res.length>0){
+                for (var i = 0 ; i<res.length; i++){
+                    s += "<dd>";
+                    s += "<a href=\"/user/"+res[i].id+"home\">";
+                    s += "<img src=\""+res[i].avatar+"\"><cite>"+res[i].name+"</cite><i>"+res[i].comments_count+"次回答</i></a>";
+                    s += "</dd>";
+                }
+                s += "</dl>";
+            }else{
+                s += "<div class=\"fly-none\">没有相关数据</div>";
+            }
+            $("#activeRank").html(s);
+        }
+    });
+</script>
