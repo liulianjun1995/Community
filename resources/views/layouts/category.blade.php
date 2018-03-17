@@ -9,6 +9,10 @@
         width: 25%;
         float: left;
     }
+    #categorys{
+        width: 90%;
+        margin: 0 auto;
+    }
     .category dl {
         position: relative;
         margin: 10px;
@@ -38,6 +42,7 @@
     .category>dl:hover{
         background-color: #e2e2e2;
     }
+
 </style>
 {{-- 板块 --}}
 <div class="container" style="width:100%;height:100px;">

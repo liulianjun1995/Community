@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Model\Post;
 use App\User;
 use function React\Promise\all;
+use Auth;
 
 class UserController extends Controller
 {
@@ -74,10 +75,11 @@ class UserController extends Controller
     {
         return view('home.user.home');
     }
-    //其他用户主页
+    //用户主页
     public function userHome($id)
     {
-        return view('home.user.home');
+        $user = User::find($id);
+        return view('home.user.home',compact('user'));
     }
     //活跃榜
     public function getActiveRank()
@@ -85,6 +87,130 @@ class UserController extends Controller
         $users = User::has('comments', '>=', 1)->withCount('comments')->orderBy('comments_count','desc')->get();
         return $users;
     }
+    //用户签到
+    public function signin($id)
+    {
+        if (Auth::id()==$id){
+            $user = Auth::user();
+            $last_sign_time = strtotime($user->last_sign_time);
+            //是否有过签到记录
+            if ($last_sign_time){
+                //有签到记录,先判断用户今天是否签到
+                if ($user->is_sign()){
+                    //今天签到了
+                    return [
+                      'error' => '0',
+                      'msg' => '今天已经签到过了'
+                    ];
+                }else{
+                    //今天没签到，判断是否中间某天是否有漏签
+                    $begin_time = time();
+                    $end_time = $last_sign_time;
+                    $result = $this->timediff($begin_time,$end_time);
+                    if ($result['day']>1){
+                        //漏签了，累计天数变为1
+                        $total_sign_day = 1;
+                    }else{
+                        //没漏签,累计
+                        $total_sign_day = $user->total_sign_day + 1;
+                    }
+                    $result = $this->updateSign($total_sign_day,$id);
+                    if ($result['status']){
+                        return [
+                            'error' => '1',
+                            'msg' => '签到成功',
+                            'addReward' => $result['addReward'],
+                            'total_sign_day'=>$result['total_sign_day']
+                        ];
+                    }else{
+                        return [
+                            'error' => '0',
+                            'msg' => '签到失败'
+                        ];
+                    }
+                }
+
+            }else{
+                //没有签到记录
+                $result = $this->updateSign(1,$id);
+                if ($result['status']){
+                    return [
+                        'error' => '1',
+                        'msg' => '签到成功',
+                        'addReward' => $result['addReward'],
+                        'total_sign_day'=>$result['total_sign_day']
+                    ];
+                }else{
+                    return [
+                        'error' => '0',
+                        'msg' => '签到失败'
+                    ];
+                }
+            }
+
+        }else{
+            return [
+              'error' => '0',
+              'msg' => '请登录'
+            ];
+        }
+    }
+
+    /**
+     * 计算相差天数
+     * @param $begin_time 开始时间戳
+     * @param $end_time 结束时间戳
+     */
+    function timediff($begin_time,$end_time){
+        if ($begin_time<$end_time){
+            $startTime = $begin_time;
+            $endTime =$end_time;
+        }else{
+            $startTime = $end_time;
+            $endTime =$begin_time;
+        }
+
+        //去掉时分秒再计算时间戳
+        $startTime = strtotime(date('Y-m-d',intval($startTime)));
+        $endTime = strtotime(date('Y-m-d',intval($endTime)));
+
+        //计算天数
+        $timediff = $endTime-$startTime;
+        $days = intval($timediff/86400);
+        $res = array('day'=>$days);
+        return $res;
+    }
+
+    /**
+     * 更新用户本次签到后的积分、时间和累计签到天数
+     * @param $sign_day 累计签到天数
+     * @param $id 签到用户id
+     */
+    function updateSign($total_sign_day,$id){
+        if ($total_sign_day<5){
+            $addReward = 5;
+        }else if($total_sign_day>=5){
+            $addReward = 10 ;
+        }else if ($total_sign_day>=15){
+            $addReward = 15;
+        }else if ($total_sign_day>=30){
+            $addReward = 30;
+        }
+
+        $user = User::find($id);
+        //累计签到天数
+        $user->total_sign_day = $total_sign_day ;
+        //本次签到积分
+        $reward = $user->reward;
+        $user->todaySignReward = $addReward;
+        //总积分
+        $user->reward = $reward+$addReward;
+        //签到时间
+        $user->last_sign_time = date("Y-m-d H:i:s") ;
+        $status = $user->save();
+        return array('status'=>$status,'addReward'=>$addReward,'total_sign_day'=>$total_sign_day);
+    }
+
 
     function showMsg($status,$message = '',$data = array()){
         $result = array(

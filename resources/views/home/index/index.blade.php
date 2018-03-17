@@ -2,6 +2,17 @@
 
 @section('container')
     @include('layouts.panel')
+    <style>
+        .msg{
+            margin: 0 auto;
+            margin-bottom: 6px;
+            font-size: 20px;
+        }
+        .msg a{
+            font-size: 25px;
+        }
+    </style>
+
     <div class="layui-container content">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8" >
@@ -19,7 +30,7 @@
                             </a>
                             <h2>
                                 <span class="layui-badge layui-bg-orange" style="top: -8px;border: none;">置顶</span>
-                                <a href="/post/{{ $top->id }}">{{ $top->title }}</a>
+                                <a href="/post/{{ $top->id }}" target='_blank'>{{ $top->title }}</a>
                             </h2>
                             <div class="fly-list-info">
                                 <a href="/user/{{ $top->user->id }}/home" >
@@ -33,7 +44,7 @@
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> {{ $top->comments->count() }}
-                                    <i class="iconfont" title="浏览"></i> {{ $top->renqi }}
+                                    <i class="iconfont" title="浏览"></i> {{ $top->view_count }}
                                 </span>
                             </div>
                         </li>
@@ -41,19 +52,24 @@
                     </ul>
                 </div>
                 {{-- 帖子 --}}
+                @if(isset($msg))
+                    <div class="msg">
+                        {!! $msg !!}
+                    </div>
+                @endif
                 <div class="fly-panel" style="border: 1px solid #eee">
-
                     <ul class="fly-list">
+                        @if($posts->count())
                         @foreach($posts as $post)
                         <li>
-                            <a href="#" class="fly-avatar">
+                            <a href="/user/{{ $post->user->id }}/home" class="fly-avatar">
                                 <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}">
                             </a>
                             <h2>
                                 <sapn>
                                     <a class="layui-badge" style="{{ $post->category->tip_style }};border: none;">{{ $post->category->name }}</a>
                                 </sapn>
-                                <a href="/post/{{ $post->id }}">{{ $post->title }}</a>
+                                <a href="/post/{{ $post->id }}" target='_blank'>{{ $post->title }}</a>
                             </h2>
                             <div class="fly-list-info">
                                 <a href="/user/{{ $post->id }}/home" link>
@@ -73,6 +89,15 @@
                             </div>
                         </li>
                         @endforeach
+                        @else
+                        <li style="text-align: center;">
+
+                            <div class="fly-list-info" style="line-height: 50px">
+                                <span style="font-size: 25px"><b>没有找到相关内容</b></span>
+                            </div>
+
+                        </li>
+                        @endif
                     </ul>
                 </div>
                 {{ $posts->links() }}

@@ -5,6 +5,9 @@
         #doc-content{
             padding: 10px;
         }
+        .editormd-code-toolbar select {
+            display: inline-block;
+        }
     </style>
     <div class="layui-container">
         <div class="layui-row layui-col-space15">

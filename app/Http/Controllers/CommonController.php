@@ -9,6 +9,8 @@ use App\Model\Post;
 use Illuminate\Support\Facades\Redis;
 use Mail;
 use Toplan\PhpSms\Sms;
+
+
 class CommonController extends Controller
 {
     //文件上传
@@ -43,7 +45,7 @@ class CommonController extends Controller
     
 
 
-    public function test()
+    public function test(Request $request)
     {
         /*
         Mail::raw('恭喜你注册成功！',function ($message){
@@ -51,8 +53,29 @@ class CommonController extends Controller
             $message->to('903993979@qq.com');
         });
         */
+        print_r($this->timediff('1521100031','1521197231'));
 
+    }
 
+    function timediff($begin_time,$end_time){
+        if ($begin_time<$end_time){
+            $startTime = $begin_time;
+            $endTime =$end_time;
+        }else{
+            $startTime = $end_time;
+            $endTime =$begin_time;
+        }
+
+        //去掉时分秒再计算时间戳
+        $startTime = strtotime(date('Y-m-d',$startTime));
+        $endTime = strtotime(date('Y-m-d',$endTime));
+
+        //计算天数
+        $timediff = $endTime-$startTime;
+        $days = intval($timediff/86400);
+
+        $res = array(['day'=>$days]);
+        return $res;
     }
 
 }

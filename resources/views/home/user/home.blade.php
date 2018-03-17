@@ -1,10 +1,10 @@
 @extends('layouts.main')
 @section('container')
 <div class="fly-home fly-panel" style="background-image: url();">
-  <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}">
+  <img src="{{ $user->avatar }}" alt="{{ $user->name }}">
   <h1>
-    {{ Auth::user()->name }}
-    <i class="iconfont @if(Auth::user()->sex == '男') icon-nan @else icon-nv @endif"></i>
+    {{ $user->name }}
+    <i class="iconfont @if($user->sex == '男') icon-nan @else icon-nv @endif"></i>
     <!-- <i class="iconfont icon-nv"></i>  -->
     {{--<i class="layui-badge fly-badge-vip">VIP3</i>--}}
     <!--
@@ -17,12 +17,12 @@
   {{--<p style="padding: 10px 0; color: #5FB878;">认证信息：layui 作者</p>--}}
 
   <p class="fly-home-info">
-    <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">{{ Auth::user()->reward }} 飞吻</span>
-    <i class="iconfont icon-shijian"></i><span>{{ Auth::user()->created_at->toDateString() }} 加入</span>
-    <i class="iconfont icon-chengshi"></i><span>来自{{ Auth::user()->city }}</span>
+    <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">{{ $user->reward }} 飞吻</span>
+    <i class="iconfont icon-shijian"></i><span>{{ $user->created_at->toDateString() }} 加入</span>
+    <i class="iconfont icon-chengshi"></i><span>来自{{ $user->city }}</span>
   </p>
 
-  <p class="fly-home-sign">（{!! Auth::user()->sign !!}）</p>
+  <p class="fly-home-sign">（{!! $user->sign !!}）</p>
 
 </div>
 
@@ -30,10 +30,10 @@
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md6 fly-home-jie">
       <div class="fly-panel">
-        <h3 class="fly-panel-title">{{ Auth::user()->name }} 最近的提问</h3>
+        <h3 class="fly-panel-title">{{ $user->name }} 最近的提问</h3>
         <ul class="jie-row">
-          @if(Auth::user()->posts()->count())
-          @foreach(Auth::user()->posts as $post)
+          @if($user->posts()->count())
+          @foreach($user->posts as $post)
           <li>
             @if($post->is_top == 1)
             <span class="layui-badge layui-bg-orange">置顶</span>
@@ -56,10 +56,10 @@
 
     <div class="layui-col-md6 fly-home-da">
       <div class="fly-panel">
-        <h3 class="fly-panel-title">{{ Auth::user()->name }} 最近的回答</h3>
+        <h3 class="fly-panel-title">{{ $user->name }} 最近的回答</h3>
         <ul class="home-jieda">
-          @if(Auth::user()->comments->count())
-          @foreach(Auth::user()->comments as $comment)
+          @if($user->comments->count())
+          @foreach($user->comments as $comment)
           <li>
             <p>
             <span>{{ $comment->created_at->diffForHumans() }}</span>

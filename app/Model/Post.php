@@ -3,12 +3,41 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'category_id','title','content','reward','user_id'
     ];
+
+    /**
+     * 获取模型的索引名称
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'posts_index';
+    }
+
+    /**
+     * 获取模型的索引数据数组
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // 自定义数组...
+
+        return $array;
+    }
+
+
     /**
      * 文章所属用户
      */

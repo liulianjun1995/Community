@@ -3,7 +3,11 @@
 @section('container')
   <div class="layui-container fly-marginTop fly-user-main">
   @include('home.user.main')
-
+<?php
+    $url = $_SERVER['REDIRECT_URL'];
+    $url = substr($url,6);
+    echo $url;
+?>
   <div class="fly-panel fly-panel-user">
     <div class="layui-tab layui-tab-brief">
       <ul class="layui-tab-title" id="LAY_mine">
@@ -13,6 +17,7 @@
         <li>帐号绑定</li>
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
+        {{-- 我的资料 --}}
         <div class="layui-form layui-form-pane layui-tab-item layui-show">
           <form id="infoForm">
             <div class="layui-form-item">
@@ -51,7 +56,7 @@
             </div>
           </form>
         </div>
-
+        {{-- 头像 --}}
         <div class="layui-form layui-form-pane layui-tab-item">
           <div class="layui-form-item">
             <div class="avatar-add">
@@ -64,7 +69,7 @@
             </div>
           </div>
         </div>
-
+        {{-- 密码 --}}
         <div class="layui-form layui-form-pane layui-tab-item">
           <form action="/user/repass" method="post">
             <div class="layui-form-item">
@@ -91,7 +96,7 @@
             </div>
           </form>
         </div>
-
+        {{-- 帐号绑定 --}}
         <div class="layui-form layui-form-pane layui-tab-item">
           <ul class="app-bind">
             <li class="fly-msg app-havebind">

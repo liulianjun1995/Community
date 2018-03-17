@@ -1,0 +1,52 @@
+@media screen and (min-width: 1080px) {
+    .about{
+        display: none;
+    }
+}
+
+/* 分页的样式 */
+.pagination {
+    padding-left: 0;
+    margin: 22px 0;
+    border-radius: 4px;
+    display: inline-block;
+}
+.pagination>li>a:hover {
+    z-index: 2;
+    color: #216a94;
+    background-color: #eee;
+    border-color: #ddd;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #777;
+    background-color: #fff;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+.pagination>.disabled>span{
+    color: #777;
+    background-color: #fff;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.6;
+    text-decoration: none;
+    color: #3097D1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+}
+.pagination>li {
+    display: inline;
+}
+.pagination>.active>span,.pagination>.active>span:hover{
+    z-index: 3;
+    color: #fff;
+    background-color: #3097D1;
+    border-color: #3097D1;
+    cursor: default;
+}

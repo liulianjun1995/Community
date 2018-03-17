@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostViewEvent;
+use App\Http\Requests\Request;
 use App\Listeners\PostEventListener;
 use App\Model\Zan;
 use Validator;
@@ -75,6 +76,14 @@ class PostController extends Controller
     public function getGonggao(){
         $post = Post::where('category_id',4)->take(4)->get();
         return $post;
+    }
+    
+    //搜索
+    public function search()
+    {
+        $posts = Post::search(\request('content'))->paginate(10);
+        $msg = "以下是和<a style='color: red'>【".\request('content')."】</a>有关的内容";
+        return view('home.index.index',compact('posts','msg'));
     }
 
 }

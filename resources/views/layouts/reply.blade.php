@@ -8,11 +8,11 @@
         type:'get',
         dataType:'json',
         success:function (res) {
-            var s =  '<h3 class="fly-panel-title">回贴周榜</h3><dl>';
+            var s =  '<h3 class="fly-panel-title">回贴榜</h3><dl>';
             if(res.length>0){
                 for (var i = 0 ; i<res.length; i++){
                     s += "<dd>";
-                    s += "<a href=\"/user/"+res[i].id+"home\">";
+                    s += "<a href=\"/user/"+res[i].id+"/home\" target='_blank'>";
                     s += "<img src=\""+res[i].avatar+"\"><cite>"+res[i].name+"</cite><i>"+res[i].comments_count+"次回答</i></a>";
                     s += "</dd>";
                 }

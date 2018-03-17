@@ -6,12 +6,15 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "algolia/algoliasearch-client-php": "dev-master",
         "barryvdh/laravel-ide-helper": "^2.4",
         "fideloper/proxy": "~3.3",
         "ibrand/laravel-sms": "~1.0",
         "laravel/framework": "5.5.*",
+        "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "predis/predis": "^1.1",
+        "tom-lingham/searchy": "2.*",
         "toplan/laravel-sms": "~2.6"
     },
     "require-dev": {
@@ -58,5 +61,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "minimum-stability": "dev"
 }

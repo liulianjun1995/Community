@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('container')
+    <style>
+        .editormd-code-toolbar select {
+            display: inline-block;
+        }
+    </style>
   <div class="layui-container fly-marginTop">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
       <!--<div class="fly-none">没有权限</div>-->
@@ -66,13 +71,6 @@
   </div>
 
   <script>
-
-      $.ajaxSetup({
-          headers:{
-              'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-          }
-      });
-
 
       layui.use(['form','layedit'], function(){
           var form = layui.form;
@@ -152,6 +150,13 @@
                 syncScrolling : "single",
                 tex: true,// 开启科学公式TeX语言支持，默认关闭
                 path    : "{{ asset('/assets/editormd/lib') }}/",//注意2：你的路径
+                taskList: true,
+                codeFold: true,
+                tocm             : true,
+                htmlDecode: "style,script,iframe",
+                flowChart        : true,
+                sequenceDiagram  : true,
+                searchReplace    : true,
                 saveHTMLToTextarea : true,//注意3：这个配置，方便post提交表单
                 imageUpload : true,
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],

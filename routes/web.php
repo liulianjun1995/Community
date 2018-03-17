@@ -23,12 +23,11 @@ Route::get('getGonggao','PostController@getGonggao');
 Route::resource('post','PostController',['only' => [
     'show','store'
 ]]);
-
+//搜索
+Route::get('search','PostController@search');
 
 //某个版块下的帖子
 Route::get('/category/{id}','CategoryController@posts');
-
-
 //获取版块
 Route::get('/getCategory','CategoryController@category');
 
@@ -59,16 +58,20 @@ Route::group(['prefix'=>'user'],function (){
         Route::post('/uploadImg','CommonController@file_up');
         //用户中心
         Route::get('/index','UserController@index');
-        //我的主页
-        Route::get('/home','UserController@home');
         //发表帖子页面
         Route::get('/post/add','PostController@add');
+        //我发表的帖子
+        Route::get('/index/post','UserController@index');
+        //我收藏的帖子
+        Route::get('/index/collection','UserController@index');
         //发出评论
         Route::post('/doComment','CommentController@doComment');
         //赞评论
         Route::get('/{id}/zan','CommentController@zan');
         //取消赞
         Route::get('/{id}/unzan','CommentController@unzan');
+        //签到
+        Route::post('/{id}/signin','UserController@signin');
     });
 
 });

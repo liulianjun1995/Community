@@ -1,10 +1,10 @@
 <style>
 
-
     .tab{
-        width: 1200px;
+        width: 85%;
         padding: 0 10px;
         margin: 0 auto;
+        position: relative;
     }
     .tab span{
         display: inline-block;
@@ -40,8 +40,45 @@
         color: #999;
         cursor: pointer;
     }
-</style>
+    @media screen and (min-width: 1200px) {
+        .addPost{
+            float: right;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .myPosts,.myCollections{
+            display: none;
+        }
+        .addPost{
+            position: absolute;
+            right: 20px;
+        }
+    }
+    @media screen and (max-width: 1000px) {
+        .search{
+            display: none;
+        }
+        .addPost{
+            right: 200px;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        .category dd{
+            display: none;
+        }
+        .category dl{
+            width: 60px;
+            margin: 5px;
+        }
 
+    }
+    @media screen and (max-width: 700px) {
+
+        .addPost{
+            display: none;
+        }
+    }
+</style>
 
 <div class="layui-tab layui-tab-brief tab">
 <span style="margin-left: 13px">
@@ -50,20 +87,20 @@
    <a href="#">已采纳</a>
    <a href="#">精帖</a>
 </span>
-    <div class="layui-input-inline" style="margin-left: 30px;width: 200px">
+    <div class="layui-input-inline search" style="margin-left: 30px;width: 200px">
         <div class="fly-search" style="width: 100%">
             <i class="iconfont icon-sousuo" onclick="search($('#searchInput').val())"></i>
             <input style="height: 34px;margin-top: 6px;font-size: 14px" id="searchInput" class="layui-input" autocomplete="off" placeholder="搜索内容" maxlength="10" type="text">
         </div>
-        <button id="sendVerifySmsButton">发送邮件</button>
     </div>
-    <a href="#" style="margin-left: 200px;color: ;">我发表的贴</a>
-    <a href="#" style="margin-left: 50px">我收藏的贴</a>
     @login
-    <a href="/user/post/add" class="layui-btn" style="float: right">发表新帖</a>
+    <a href="/user/index/post" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
+    <a href="/user/index/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
+    <a href="/user/post/add" class="layui-btn addPost">发表新帖</a>
     @else
-    <a href="javascript:void(0)" class="layui-btn" style="float: right" onclick="layer.msg('请先登录')">发表新帖</a>
+    <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>
     @endlogin
+
     <script>
         //监听input点击事件
         window.onload=function (ev) {
@@ -80,34 +117,32 @@
             if(input==null || input==""){
                 layer.msg('请输入检索内容');
             }else{
-                //搜索操作
+                window.location.href = '/search?content='+input;
             }
         }
     </script>
-
-        <script src="{{ asset('/assets/js/laravel-sms.js') }}"></script>
-        <script>
-            $("#sendVerifySmsButton").sms({
-                //laravel csrf token
-                token: "{{ csrf_token() }}",
-                //请求间隔时间
-                interval    : 60,
-                //请求参数
-                requestData : {
-                    //手机号
-                    mobile : function () {
-                        return "15939745521";
-                    },
-                    //手机号的检测规则
-                    mobile_rule : 'mobile_required'
+    <script src="{{ asset('/assets/js/laravel-sms.js') }}"></script>
+    <script>
+        $("#sendVerifySmsButton").sms({
+            //laravel csrf token
+            token: "{{ csrf_token() }}",
+            //请求间隔时间
+            interval    : 60,
+            //请求参数
+            requestData : {
+                //手机号
+                mobile : function () {
+                    return "15939745521";
                 },
-                //消息展示方式(默认为alert)
-                notify      : function (msg, type) {
-                    layer.msg(msg);
-                },
+                //手机号的检测规则
+                mobile_rule : 'mobile_required'
+            },
+            //消息展示方式(默认为alert)
+            notify      : function (msg, type) {
+                layer.msg(msg);
+            },
 
-            });
-        </script>
+        });
+    </script>
 </div>
-
 
