@@ -29,6 +29,14 @@ class User extends Authenticatable
     }
 
     /**
+     * 我的未读评论
+     */
+    public function newComments()
+    {
+        return $this->hasMany('App\Model\Comment','user_id','id')->where('is_new','=',1)->orderBy('created_at','desc');
+    }
+
+    /**
      * 今天是否签到
      */
 

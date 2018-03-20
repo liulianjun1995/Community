@@ -1,4 +1,8 @@
-
+<style>
+    .layui-layer-tips{
+        position: fixed !important;
+    }
+</style>
 <div class="fly-header layui-bg-black">
     <div class="layui-container">
             <a class="fly-logo" href="/">
@@ -34,10 +38,13 @@
                     <dl class="layui-nav-child">
                         <dd><a href="/user/set"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
                         <dd><a href="/user/message"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-                        <dd><a href="/user/{{ Auth::user()->id }}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+                        <dd><a href="/user/{{ Auth::user()->id }}/home"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
                         <hr style="margin: 5px 0;">
                         <dd><a href="/user/logout" style="text-align: center;">退出</a></dd>
                     </dl>
+                    @if(count(Auth::user()->newComments)>0)
+                    <a class="fly-nav-msg" id="msg" href="{{ url('/user/message') }}">{{ Auth::user()->newComments->count() }}</a>
+                    @endif
                 </li>
                 @else
                     <li class="layui-nav-item">
@@ -54,6 +61,15 @@
 
         </div>
     <script>
+        //消息tips
+        var msg = $('#msg');
+        if (msg.length>0){
+            var num = msg.text();
+            layer.tips('您有'+num+'条未读消息', '#msg', {
+                tips: [3, '#000000'],
+                time: 4000
+            });
+        }
         layui.use('element', function(){
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
         });

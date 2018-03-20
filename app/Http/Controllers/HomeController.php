@@ -14,14 +14,11 @@ class HomeController extends Controller
     //首页
     public function index()
     {
-
         if (!session()->get('tops')){
             $tops = Post::where('is_top','1')->take(2)->get();
             session()->put('tops',$tops);
         }
-
         $posts = Post::where('is_top','0')->paginate(10);
-
         return view('home.index.index',compact('posts'));
     }
     //登录页面
@@ -32,6 +29,7 @@ class HomeController extends Controller
     //登录验证
     public function login()
     {
+
         if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])){
             return [
               'error' => '1',
@@ -54,7 +52,7 @@ class HomeController extends Controller
     {
         $validator  = Validator::make(request()->all(),[
             'email' => 'required|email|unique:users',
-            'name' => 'required|min:2|max:10',
+            'name' => 'required|unique:users|min:2|max:10',
             'password' => 'required|min:4|max:20|confirmed',
             'password_confirmation' => 'required|min:4|max:20',
         ]);
@@ -80,7 +78,7 @@ class HomeController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect()->action('HomeController@index');
     }
 }
 

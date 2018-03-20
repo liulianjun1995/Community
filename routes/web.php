@@ -70,6 +70,12 @@ Route::group(['prefix'=>'user'],function (){
         Route::get('/{id}/zan','CommentController@zan');
         //取消赞
         Route::get('/{id}/unzan','CommentController@unzan');
+        //我的消息
+        Route::get('/message',function (){
+            return view('home.user.message');
+        });
+        //消息标记已读
+
         //签到
         Route::post('/{id}/signin','UserController@signin');
     });

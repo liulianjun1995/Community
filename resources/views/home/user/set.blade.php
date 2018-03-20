@@ -3,11 +3,6 @@
 @section('container')
   <div class="layui-container fly-marginTop fly-user-main">
   @include('home.user.main')
-<?php
-    $url = $_SERVER['REDIRECT_URL'];
-    $url = substr($url,6);
-    echo $url;
-?>
   <div class="fly-panel fly-panel-user">
     <div class="layui-tab layui-tab-brief">
       <ul class="layui-tab-title" id="LAY_mine">
@@ -23,7 +18,7 @@
             <div class="layui-form-item">
               <label for="L_email" class="layui-form-label">邮箱</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" value="{{ Auth::user()->email }}" class="layui-input">
+                <input type="text" id="L_email" name="email" required readonly lay-verify="email" autocomplete="off" value="{{ Auth::user()->email }}" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">如果您在邮箱已激活的情况下，变更了邮箱，需<a href="activate.html" style="font-size: 12px; color: #4f99cf;">重新验证邮箱</a>。</div>
             </div>

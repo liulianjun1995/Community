@@ -18,6 +18,15 @@ class UserController extends Controller
     //修改个人资料
     public function info()
     {
+        $validator  = Validator::make(request()->all(),[
+            'name' => 'required|unique:users|min:2|max:10',
+            'sex' => 'required',
+            'city' => 'required',
+        ]);
+        if ($validator->fails()){
+            //有错误
+            return $validator->errors();
+        }
 
         if (User::where('id',\Auth::id())->update(request()->all())){
             return 1;

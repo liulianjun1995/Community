@@ -19,6 +19,7 @@ class CreateCommentsTable extends Migration
             $table->tinyInteger('user_id')->comment('评论人');
             $table->tinyInteger('post_id')->comment('评论的文章');
             $table->text('content')->comment('评论的内容');
+            $table->tinyInteger('is_read')->comment('是否已读');
             $table->timestamps();
         });
     }

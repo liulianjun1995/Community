@@ -13,6 +13,7 @@ class CategoryController extends Controller
         return Category::all();
     }
 
+
     /**
      * 版块下的帖子
      */
