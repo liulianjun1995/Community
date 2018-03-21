@@ -107,6 +107,7 @@ return [
         'password_confirmation' => '确认密码',
         'reward' => '悬赏',
         'category' => '版块',
+        'captcha' => '验证码',
     ],
 
 ];

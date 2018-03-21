@@ -169,6 +169,7 @@ return [
         Toplan\Sms\SmsManagerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,6 +236,7 @@ return [
         'PhpSms' => Toplan\PhpSms\Facades\Sms::class,
         'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
     ],
 

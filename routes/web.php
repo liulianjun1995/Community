@@ -25,14 +25,16 @@ Route::resource('post','PostController',['only' => [
 ]]);
 //搜索
 Route::get('search','PostController@search');
-
 //某个版块下的帖子
 Route::get('/category/{id}','CategoryController@posts');
 //获取版块
 Route::get('/getCategory','CategoryController@category');
-//GitHub登录
+//GitHub登录页面
 Route::get('/github','HomeController@github');
+//登录操作
 Route::get('/github/login','HomeController@githubLogin');
+//刷新验证码
+Route::get('/refereshcapcha','CommonController@refereshcapcha');
 
 //用户相关操作
 Route::group(['prefix'=>'user'],function (){

@@ -42,7 +42,21 @@ class CommonController extends Controller
         }
         return json_encode($result); //返回必须为json格式
     }
-    
+    //刷新验证码
+    public function refereshcapcha()
+    {
+        return captcha_img('flat');
+    }
+    //发送邮箱
+    public function email()
+    {
+        
+    }
+    //发送手机验证
+    public function phone()
+    {
+
+    }
 
 
     public function test(Request $request)

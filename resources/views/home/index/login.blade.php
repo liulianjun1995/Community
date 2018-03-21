@@ -34,6 +34,17 @@
                     <input type="password" id="L_pass" name="password" required lay-verify="password" autocomplete="off" class="layui-input">
                   </div>
                 </div>
+              <div class="layui-form-item">
+                  <label for="L_vercode" class="layui-form-label">验证码</label>
+                  <div class="layui-input-inline">
+                      <input type="text" id="captcha" type="captcha" name="captcha" required lay-verify="captcha" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid" style="bottom: 10px;">
+                      <span class="col-md-1 refereshrecapcha"  onclick="refreshCaptcha()">
+                        {!! captcha_img('flat')  !!}
+                      </span>
+                  </div>
+              </div>
                 <div class="layui-form-item">
                   <button class="layui-btn" lay-filter="login" lay-submit>立即登录</button>
                   <span style="padding-left:20px;">
@@ -52,18 +63,28 @@
     </div>
   </div>
   <script>
-      $.ajaxSetup({
-          headers:{
-              'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-          }
-      });
+      //刷新验证码
+      function refreshCaptcha(){
+          $.ajax({
+              url: "/refereshcapcha",
+              type: 'get',
+              dataType: 'html',
+              success: function(json) {
+                  $('.refereshrecapcha').html(json);
+              },
+              error: function(data) {
+                  alert('再试一次');
+              }
+          });
+      }
+
       layui.use(['form'], function(){
           var form = layui.form
               ,layer = layui.layer
 
           //自定义验证规则
           form.verify({
-              password: [/(.+){6,12}$/, '密码必须6到12位']
+              password: [/(.+){6,12}$/, '密码必须6到12位'],
           });
 
           //监听提交
@@ -93,6 +114,7 @@
                               time: 1000
                               ,shade: 0.2
                           });
+                          refreshCaptcha();
                       }
                   },
                   error:function () {

@@ -52,6 +52,18 @@ class HomeController extends Controller
     //登录验证
     public function login()
     {
+        //验证验证码
+        $validator = Validator::make(request()->all(),[
+            'captcha' => 'required|captcha',
+        ]);
+        if ($validator->fails()){
+            //验证码错误
+            return [
+                'error' => '0',
+                'msg' => '验证码错误'
+            ];
+        }
+        //验证账号密码
         if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])){
             return [
               'error' => '1',
@@ -73,6 +85,7 @@ class HomeController extends Controller
     public function reg()
     {
         $validator  = Validator::make(request()->all(),[
+            'captcha' => 'required|captcha',
             'email' => 'required|email|unique:users',
             'name' => 'required|unique:users|min:2|max:10',
             'password' => 'required|min:4|max:20|confirmed',
@@ -82,7 +95,6 @@ class HomeController extends Controller
             //有错误
             return $validator->errors();
         }
-
         //进行注册逻辑
         $email = request('email');
         $name = request('name');

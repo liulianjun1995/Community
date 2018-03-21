@@ -39,12 +39,14 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label for="L_vercode" class="layui-form-label">人类验证</label>
+                                    <label for="L_vercode" class="layui-form-label">验证码</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
+                                        <input type="text" id="captcha" type="captcha" name="captcha" required placeholder="请输入验证码" autocomplete="off" class="layui-input">
                                     </div>
-                                    <div class="layui-form-mid">
-                                        <span style="color: #c00;"></span>
+                                    <div class="layui-form-mid" style="bottom: 10px;">
+                                      <span class="col-md-1 refereshrecapcha" onclick="refreshCaptcha()">
+                                        {!! captcha_img('flat')  !!}
+                                      </span>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -66,13 +68,22 @@
             </div>
         </div>
         <script>
-            $.ajaxSetup({
-                headers:{
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            //刷新验证码
+            function refreshCaptcha(){
+                $.ajax({
+                    url: "/refereshcapcha",
+                    type: 'get',
+                    dataType: 'html',
+                    success: function(json) {
+                        $('.refereshrecapcha').html(json);
+                    },
+                    error: function(data) {
+                        alert('再试一次');
+                    }
+                });
+            }
 
-            layui.use(['form', 'layedit', 'laydate'], function(){
+            layui.use(['form'], function(){
                 var form = layui.form
                     ,layer = layui.layer
 
@@ -130,6 +141,9 @@
                                 }
                                 if(res.password != undefined){
                                     error += res.password+'<br>';
+                                }
+                                if(res.captcha != undefined){
+                                    error += '验证码有误<br>';
                                 }
                                 layer.msg(error, {
                                     time: 2500
