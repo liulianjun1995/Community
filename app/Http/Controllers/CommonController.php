@@ -53,7 +53,7 @@ class CommonController extends Controller
             $message->to('903993979@qq.com');
         });
         */
-        var_dump($_SERVER);
+        phpinfo();
     }
 
 

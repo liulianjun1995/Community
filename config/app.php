@@ -168,6 +168,7 @@ return [
         Toplan\PhpSms\PhpSmsServiceProvider::class,
         Toplan\Sms\SmsManagerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -233,6 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PhpSms' => Toplan\PhpSms\Facades\Sms::class,
         'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

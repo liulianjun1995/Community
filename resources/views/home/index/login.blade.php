@@ -42,7 +42,7 @@
                 </div>
               <div class="layui-form-item fly-form-app">
                   <span>或者使用社交账号登入</span>
-                  <a href="" onclick="layer.msg('正在通过GitHub登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="GitHub登入"></a>
+                  <a href="/github" onclick="layer.msg('正在通过GitHub登入', {icon:16, shade: 0.1, time:0})" class="icon-github" title="GitHub登入"></a>
               </div>
               </form>
             </div>

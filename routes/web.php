@@ -30,6 +30,9 @@ Route::get('search','PostController@search');
 Route::get('/category/{id}','CategoryController@posts');
 //获取版块
 Route::get('/getCategory','CategoryController@category');
+//GitHub登录
+Route::get('/github','HomeController@github');
+Route::get('/github/login','HomeController@githubLogin');
 
 //用户相关操作
 Route::group(['prefix'=>'user'],function (){
@@ -75,7 +78,6 @@ Route::group(['prefix'=>'user'],function (){
             return view('home.user.message');
         });
         //消息标记已读
-
         //签到
         Route::post('/{id}/signin','UserController@signin');
     });

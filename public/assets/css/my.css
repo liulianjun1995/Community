@@ -50,3 +50,9 @@
     border-color: #3097D1;
     cursor: default;
 }
+.icon-github{
+    display: inline-block;
+    background: url('/assets/images/github.jpg');
+    width: 40px;
+    height: 40px;
+}

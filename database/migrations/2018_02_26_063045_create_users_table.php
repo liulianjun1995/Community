@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('github_id')->uinque()->comment('用户GitHub账户id');
             $table->string('name')->unique();
             $table->string('password');
             $table->string('email')->unique()->comment('邮箱');

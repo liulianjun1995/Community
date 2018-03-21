@@ -5,6 +5,7 @@ use App\Model\Category;
 use App\Model\Post;
 use App\User;
 use Auth;
+use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use Mail;
 
@@ -26,10 +27,31 @@ class HomeController extends Controller
     {
         return view('home.index.login');
     }
+    //github登录页面
+    public function github()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+    //github登录处理
+    public function githubLogin()
+    {
+        $user = Socialite::driver('github')->user();
+        if (!User::where('github_id',$user->id)->first()){
+            $userModel = new User;
+            $userModel->github_id = $user->id;
+            $userModel->email = $user->email;
+            $userModel->name = $user->nickname;
+            $userModel->avatar = $user->avatar;
+            $userModel->password = bcrypt(str_random(16));
+            $userModel->save();
+        }
+        $userInstance = User::where('github_id',$user->id)->firstOrFail();
+        Auth::login($userInstance);
+        return redirect()->action('HomeController@index');
+    }
     //登录验证
     public function login()
     {
-
         if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])){
             return [
               'error' => '1',
