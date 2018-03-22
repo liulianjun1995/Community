@@ -14,7 +14,7 @@ return [
     'route' => [
         'enable'     => true,
         'prefix'     => 'laravel-sms',
-        //'middleware' => ['web'],
+        'middleware' => ['web'],
     ],
 
     /*
@@ -172,7 +172,7 @@ return [
     | 运行'php artisan migrate'命令可以自动生成
     |
     */
-    'dbLogs' => false,
+    'dbLogs' => true,
 
     /*
     |--------------------------------------------------------------------------

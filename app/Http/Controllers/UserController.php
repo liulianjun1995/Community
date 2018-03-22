@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 use App\Model\Post;
 use App\User;
-use function React\Promise\all;
 use Auth;
+use Validator;
+use Request;
+use Toplan\Sms\Facades\SmsManager;
 
 class UserController extends Controller
 {
@@ -164,7 +166,29 @@ class UserController extends Controller
             ];
         }
     }
+    //用户绑定手机号
+    public function bindPhone()
+    {
+        //验证数据
+        $validator = \Validator::make(request()->all(), [
+            'phone'     => 'required|confirm_mobile_not_change|unique:users',
+            'verifyCode' => 'required|verify_code',
+        ]);
+        if ($validator->fails()) {
+            //验证失败后建议清空存储的发送状态，防止用户重复试错
+            SmsManager::forgetState();
+            return redirect()->back()->withErrors($validator);
+        }
+        $user = Auth::user();
+        if (!$user->phone){
+            $user->phone = request('phone');
+            $user->save();
+            return redirect()->action('UserController@set');
+        }else{
+            return redirect()->back()->withErrors('您已绑定手机号');
+        }
 
+    }
     /**
      * 计算相差天数
      * @param $begin_time 开始时间戳
@@ -219,8 +243,6 @@ class UserController extends Controller
         $status = $user->save();
         return array('status'=>$status,'addReward'=>$addReward,'total_sign_day'=>$total_sign_day);
     }
-
-
     function showMsg($status,$message = '',$data = array()){
         $result = array(
             'status' => $status,

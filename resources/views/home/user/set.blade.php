@@ -15,12 +15,22 @@
         {{-- 我的资料 --}}
         <div class="layui-form layui-form-pane layui-tab-item layui-show">
           <form id="infoForm">
+              <div class="layui-form-item">
+                  <label for="phone" class="layui-form-label">手机号</label>
+                  <div class="layui-input-inline">
+                      <input type="text" id="phone" name="phone" readonly autocomplete="off" value="{{ Auth::user()->phone }}" class="layui-input">
+                  </div>
+                  @if(!Auth::user()->phone)
+                  <div class="layui-form-mid layui-word-aux">您还未验证手机号，请<a href="/user/bindPhone" style="font-size: 12px; color: #4f99cf;">验证手机号</a>。</div>
+                  @else
+                  <div class="layui-form-mid layui-word-aux"><span style="color: #5FB878">您已完成手机号绑定，已正式成为社区实名用户。</span> 手机号暂不支持修改。 </div>
+                  @endif
+              </div>
             <div class="layui-form-item">
               <label for="L_email" class="layui-form-label">邮箱</label>
               <div class="layui-input-inline">
                 <input type="text" id="L_email" name="email" required readonly lay-verify="email" autocomplete="off" value="{{ Auth::user()->email }}" class="layui-input">
               </div>
-              <div class="layui-form-mid layui-word-aux">如果您在邮箱已激活的情况下，变更了邮箱，需<a href="activate.html" style="font-size: 12px; color: #4f99cf;">重新验证邮箱</a>。</div>
             </div>
             <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">昵称</label>
@@ -118,11 +128,6 @@
   </div>
 </div>
   <script>
-      $.ajaxSetup({
-          headers:{
-              'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-          }
-      });
       //Demo
       layui.use('form', function(){
             var form = layui.form;
@@ -136,9 +141,7 @@
       //修改资料
       function changeInfo(){
           var fm = document.getElementById('infoForm');
-
           var fd = new FormData(fm);
-
           $.ajax({
               url:"/user/info",
               type:'post',

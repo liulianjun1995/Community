@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2d6a31a7b56edbe692c572cbb49a383",
+    "content-hash": "907410431d14a1c2f9e6f50889e6d7d0",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -3308,7 +3308,7 @@
         },
         {
             "name": "toplan/laravel-sms",
-            "version": "2.6.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/toplan/laravel-sms.git",
@@ -5364,7 +5364,8 @@
         "algolia/algoliasearch-client-php": 20,
         "laravel/socialite": 20,
         "mews/captcha": 20,
-        "overtrue/socialite": 20
+        "overtrue/socialite": 20,
+        "toplan/laravel-sms": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

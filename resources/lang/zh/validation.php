@@ -63,16 +63,20 @@ return [
     'url'                  => ':attribute 无效的格式',
     'timezone'             => ':attribute 必须个有效的时区',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
+    'zh_mobile'         => '非标准的中国大陆手机号',
+    'confirm_mobile_not_change' => '提交的手机号已变更',
+    'verify_code'        => '验证码不合法或无效',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Custom Validation Language Lines
+        |--------------------------------------------------------------------------
+        |
+        | Here you may specify custom validation messages for attributes using the
+        | convention "attribute.rule" to name the lines. This makes it quick to
+        | specify a specific custom language line for a given attribute rule.
+        |
+        */
     'custom'               => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
@@ -108,6 +112,9 @@ return [
         'reward' => '悬赏',
         'category' => '版块',
         'captcha' => '验证码',
+        'phone_number' => '手机号',
+        'phone' => '手机号',
+        'sms_code'  => '验证码',
     ],
 
 ];

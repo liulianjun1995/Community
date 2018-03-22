@@ -121,28 +121,5 @@
             }
         }
     </script>
-    <script src="{{ asset('/assets/js/laravel-sms.js') }}"></script>
-    <script>
-        $("#sendVerifySmsButton").sms({
-            //laravel csrf token
-            token: "{{ csrf_token() }}",
-            //请求间隔时间
-            interval    : 60,
-            //请求参数
-            requestData : {
-                //手机号
-                mobile : function () {
-                    return "15939745521";
-                },
-                //手机号的检测规则
-                mobile_rule : 'mobile_required'
-            },
-            //消息展示方式(默认为alert)
-            notify      : function (msg, type) {
-                layer.msg(msg);
-            },
-
-        });
-    </script>
 </div>
 

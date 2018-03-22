@@ -171,6 +171,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -199,7 +200,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,

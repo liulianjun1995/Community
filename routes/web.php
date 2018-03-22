@@ -82,6 +82,11 @@ Route::group(['prefix'=>'user'],function (){
         //消息标记已读
         //签到
         Route::post('/{id}/signin','UserController@signin');
+        //绑定手机号页面
+        Route::get('/bindPhone',function (){
+            return view('home.user.bindPhone');
+        });
+        Route::post('/bindPhone','UserController@bindPhone');
     });
 
 });
