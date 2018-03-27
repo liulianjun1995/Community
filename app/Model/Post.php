@@ -61,5 +61,10 @@ class Post extends Model
     {
         return $this->hasMany('App\Model\Comment')->orderBy('created_at','desc');
     }
+    //文章浏览次数
+    public function visitors()
+    {
+        return $this->hasMany('App\VisitorRegistry');
+    }
 
 }

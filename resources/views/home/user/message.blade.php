@@ -24,7 +24,9 @@
                 </ul>
                 </div>
                 <div class="layui-tab-item layui-show">
-                    <div class="fly-none">消息提醒</div>
+                    <div id="LAY_minemsg">
+                        <div class="fly-none">您暂时没有最新消息</div>
+                    </div>
                 </div>
             </div>
         </div>

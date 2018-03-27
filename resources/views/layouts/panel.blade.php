@@ -1,8 +1,6 @@
 <style>
-
     .tab{
-        width: 85%;
-        padding: 0 10px;
+        width: 92%;;
         margin: 0 auto;
         position: relative;
     }
@@ -81,8 +79,8 @@
 </style>
 
 <div class="layui-tab layui-tab-brief tab">
-<span style="margin-left: 13px">
-   <a class="bg-this" href="#">全部</a>
+<span>
+   <a class="bg-this" href="/">全部</a>
    <a href="#">未结帖</a>
    <a href="#">已采纳</a>
    <a href="#">精帖</a>
@@ -96,30 +94,29 @@
     @login
     <a href="/user/posts/index" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
     <a href="/user/posts/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
-    <a href="/user/post/add" class="layui-btn addPost">发表新帖</a>
+    <a href="/user/post/create" class="layui-btn addPost">发表新帖</a>
     @else
     <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>
     @endlogin
-
-    <script>
-        //监听input点击事件
-        window.onload=function (ev) {
-            $("#searchInput").keydown(function (event) {
-                if(event.keyCode==13){
-                    var input = $('#searchInput').val();
-                    search(input);
-                }
-            })
-        };
-        //搜索
-        function search(input) {
-            //搜索操作
-            if(input==null || input==""){
-                layer.msg('请输入检索内容');
-            }else{
-                window.location.href = '/search?content='+input;
-            }
-        }
-    </script>
 </div>
+<script>
+    //监听input点击事件
+    window.onload=function (ev) {
+        $("#searchInput").keydown(function (event) {
+            if(event.keyCode==13){
+                var input = $('#searchInput').val();
+                search(input);
+            }
+        })
+    };
+    //搜索
+    function search(input) {
+        //搜索操作
+        if(input==null || input==""){
+            layer.msg('请输入检索内容');
+        }else{
+            window.location.href = '/search?content='+input;
+        }
+    }
+</script>
 

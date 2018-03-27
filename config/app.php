@@ -163,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
 
 
 
@@ -176,6 +177,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        Weboap\Visitor\VisitorServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -238,7 +240,6 @@ return [
         'SmsManager' => Toplan\Sms\Facades\SmsManager::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
-
     ],
 
 ];

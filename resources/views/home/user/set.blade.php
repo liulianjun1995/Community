@@ -6,14 +6,14 @@
   <div class="fly-panel fly-panel-user">
     <div class="layui-tab layui-tab-brief">
       <ul class="layui-tab-title" id="LAY_mine">
-        <li class="layui-this">我的资料</li>
-        <li>头像</li>
-        <li>密码</li>
-        <li>帐号绑定</li>
+        <li class="@if(strpos($_SERVER['REQUEST_URI'],'info')!==false) layui-this @endif">我的资料</li>
+        <li class="@if(strpos($_SERVER['REQUEST_URI'],'avatar')!==false) layui-this @endif">头像</li>
+        <li class="@if(strpos($_SERVER['REQUEST_URI'],'pass')!==false) layui-this @endif">密码</li>
+        <li class="@if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-this @endif">帐号绑定</li>
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
         {{-- 我的资料 --}}
-        <div class="layui-form layui-form-pane layui-tab-item layui-show">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'info')!==false) layui-show @endif">
           <form id="infoForm">
               <div class="layui-form-item">
                   <label for="phone" class="layui-form-label">手机号</label>
@@ -62,7 +62,7 @@
           </form>
         </div>
         {{-- 头像 --}}
-        <div class="layui-form layui-form-pane layui-tab-item">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'avatar')!==false) layui-show @endif">
           <div class="layui-form-item">
             <div class="avatar-add">
               <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
@@ -75,7 +75,7 @@
           </div>
         </div>
         {{-- 密码 --}}
-        <div class="layui-form layui-form-pane layui-tab-item">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'pass')!==false) layui-show @endif">
           <form action="/user/repass" method="post">
             <div class="layui-form-item">
               <label for="L_nowpass" class="layui-form-label">当前密码</label>
@@ -102,7 +102,7 @@
           </form>
         </div>
         {{-- 帐号绑定 --}}
-        <div class="layui-form layui-form-pane layui-tab-item">
+        <div class="layui-form layui-form-pane layui-tab-item" @if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-show @endif>
           <ul class="app-bind">
             <li class="fly-msg app-havebind">
               <i class="iconfont icon-qq"></i>
@@ -123,7 +123,6 @@
           </ul>
         </div>
       </div>
-
     </div>
   </div>
 </div>

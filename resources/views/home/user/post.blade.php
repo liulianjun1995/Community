@@ -22,7 +22,7 @@
                                 <li class="post-list">
                                     <a class="jie-title" style="" href="/post/{{ $post->id }}" target="_blank">{{ $post->title }}</a>
                                     <i>{{ $post->created_at->diffForHumans() }}</i>
-                                    <a class="mine-edit" href="#">编辑</a>
+                                    <a class="mine-edit" href="/user/post/{{ $post->id }}/edit">编辑</a>
                                     <em>{{ $post->renqi }}阅/{{ $post->comments->count() }}答</em>
                                 </li>
                             @endforeach

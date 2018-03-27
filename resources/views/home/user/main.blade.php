@@ -16,8 +16,8 @@ $uri = substr($str,0);
             用户中心
         </a>
     </li>
-    <li class="layui-nav-item @if($uri=="set") layui-this @endif">
-        <a href="{{ url('/user/set') }}">
+    <li class="layui-nav-item @if(strpos($uri,'set')!==false) layui-this @endif">
+        <a href="{{ url('/user/set/info') }}">
             <i class="layui-icon">&#xe620;</i>
             基本设置
         </a>

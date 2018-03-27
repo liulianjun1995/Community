@@ -21,7 +21,7 @@ Route::get('getActiveRank','UserController@getActiveRank');
 Route::get('getGonggao','PostController@getGonggao');
 //帖子详情
 Route::resource('post','PostController',['only' => [
-    'show','store'
+    'show'
 ]]);
 //搜索
 Route::get('search','PostController@search');
@@ -53,18 +53,26 @@ Route::group(['prefix'=>'user'],function (){
     Route::group(['middleware'=>'checkLogin'],function (){
         //退出登录
         Route::get('/logout','HomeController@logout');
-        //设置页面
-        Route::get('/set','UserController@set');
+        //个人资料页面
+        Route::get('/set/info','UserController@set');
         //修改个人资料
         Route::post('/info','UserController@info');
-        //上传头像
+        //头像
+        Route::get('/set/avatar','UserController@set');
+        //修改头像
         Route::post('/upload','UserController@upload');
         //上传图片
         Route::post('/uploadImg','CommonController@file_up');
+        //修改密码
+        Route::get('/set/pass','UserController@set');
+        //账号绑定
+        Route::get('/set/bind','UserController@set');
         //用户中心
         Route::get('/index','UserController@index');
-        //发表帖子页面
-        Route::get('/post/add','PostController@add');
+        //帖子路由
+        Route::resource('post','PostController',['only' => [
+            'create','store','edit','update'
+        ]]);
         //我发表的帖子
         Route::get('/posts/index','UserController@posts');
         //我收藏的帖子

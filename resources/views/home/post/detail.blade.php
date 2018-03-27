@@ -37,27 +37,29 @@
                         </div>
                         <span class="fly-list-nums">
                             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $post->comments->count() }}</a>
-                            <i class="iconfont" title="浏览">&#xe60b;</i> {{ $post->view_count }}
+                            <i class="iconfont" title="浏览">&#xe60b;</i> {{ $post->visitors->sum(['clicks']) }}
                         </span>
                     </div>
                     <div class="detail-about">
-                        <a class="fly-avatar" href="../user/home.html">
+                        <a class="fly-avatar" href="/user/{{ $post->user->id }}/home">
                             <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}">
                         </a>
                         <div class="fly-detail-user">
-                            <a href="../user/home.html" class="fly-link">
+                            <a href="/user/{{ $post->user->id }}/home" class="fly-link">
                                 <cite>{{ $post->user->name }}</cite>
                             </a>
                             <span>{{ $post->created_at->diffForHumans() }}</span>
                         </div>
                         <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
                             <span style="padding-right: 10px; color: #FF7200">悬赏：{{ $post->reward }}飞吻</span>
-                            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+                            @if(Auth::id() == $post->user->id)
+                            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/user/post/{{ $post->id }}/edit">编辑此贴</a></span>
+                            @endif
                         </div>
                     </div>
                     <div class="detail-body photos">
                         <div id="doc-content">
-                            <textarea style="display:none;">{!! $post->content !!}</textarea>
+                            <textarea style="display:none;">{{ $post->content }}</textarea>
                         </div>
 
                     </div>

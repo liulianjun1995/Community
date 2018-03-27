@@ -31,7 +31,7 @@
 {{-- top锚点 --}}
 <ul class="layui-fixbar">
     @login
-    <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/add') }}'"></li>
+    <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/create') }}'"></li>
     @else
     <li class="layui-icon" lay-type="bar1" onclick="layer.msg('请先登录')"></li>
     @endlogin

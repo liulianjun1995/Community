@@ -36,7 +36,9 @@
                         <img src="{{ Auth::user()->avatar }}">
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/user/set"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                        <dd><a href="/user/index"><i class="layui-icon">&#xe612;</i>用户中心</a></dd>
+                        <dd><a href="/user/set/info"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                        <hr style="margin: 5px 0;">
                         <dd><a href="/user/message"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
                         <dd><a href="/user/{{ Auth::user()->id }}/home"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
                         <hr style="margin: 5px 0;">

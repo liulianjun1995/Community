@@ -34,7 +34,6 @@ class Comment extends Model
     /**
      * 评论所有的赞
      */
-
     public function zans(){
         return $this->hasMany('App\Model\Zan','comment_id','id');
     }

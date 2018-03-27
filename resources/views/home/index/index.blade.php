@@ -2,12 +2,60 @@
 
 @section('container')
     @include('layouts.panel')
+    
     <style>
+        /* 分页的样式 */
+        .pagination {
+            padding-left: 0;
+            margin: 22px 0;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .pagination>li>a:hover {
+            z-index: 2;
+            color: #216a94;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+        .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+            color: #777;
+            background-color: #fff;
+            border-color: #ddd;
+            cursor: not-allowed;
+        }
+        .pagination>.disabled>span{
+            color: #777;
+            background-color: #fff;
+            border-color: #ddd;
+            cursor: not-allowed;
+        }
+        .pagination>li>a, .pagination>li>span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            line-height: 1.6;
+            text-decoration: none;
+            color: #3097D1;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-left: -1px;
+        }
+        .pagination>li {
+            display: inline;
+        }
+        .pagination>.active>span,.pagination>.active>span:hover{
+            z-index: 3;
+            color: #fff;
+            background-color: #3097D1;
+            border-color: #3097D1;
+            cursor: default;
+        }
         .msg{
             margin: 0 auto;
             margin-bottom: 6px;
             font-size: 20px;
         }
+
         .msg a{
             font-size: 25px;
         }
@@ -18,14 +66,13 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8" >
                 {{-- 置顶 --}}
-                <div class="fly-panel" style="border: 1px solid #eee">
+                <div class="fly-panel" id="top" style="border: 1px solid #eee">
                     <div class="fly-panel-title fly-filter">
                         <a>置顶</a>
                     </div>
                     <ul class="fly-list">
                         @foreach(session()->get('tops') as $top)
                         <li>
-
                             <a href="/user/{{ $top->user->id }}/home" class="fly-avatar">
                                 <img src="{{ $top->user->avatar }}" width="50px" height="50px" style="display: inline-block" alt="/{{ $top->user->name }}">
                             </a>
@@ -45,7 +92,7 @@
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                                 <span class="fly-list-nums">
                                     <i class="iconfont icon-pinglun1" title="回答"></i> {{ $top->comments->count() }}
-                                    <i class="iconfont" title="浏览"></i> {{ $top->view_count }}
+                                    <i class="iconfont" title="浏览"></i> {{ $top->visitors->sum(['clicks']) }}
                                 </span>
                             </div>
                         </li>
@@ -82,7 +129,7 @@
                                 <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
                                 <span class="fly-list-nums">
                                 <i class="iconfont icon-pinglun1" title="回答"></i> {{ $post->comments->count() }}
-                                <i class="iconfont" title="浏览"></i> {{ $post->view_count }}
+                                <i class="iconfont" title="浏览"></i> {{ $post->visitors->sum(['clicks']) }}
                             </span>
                             </div>
                             <div class="fly-list-badge">
@@ -101,7 +148,7 @@
                         @endif
                     </ul>
                 </div>
-                {{ $posts->render() }}
+                {{ $posts->links() }}
             </div>
 
             <div class="layui-col-md4">
@@ -113,7 +160,6 @@
                 @include('layouts.reply')
                 @include('layouts.right')
             </div>
-
         </div>
     </div>
 @endsection

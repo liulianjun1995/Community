@@ -15,11 +15,10 @@ class HomeController extends Controller
     //首页
     public function index()
     {
-        if (!session()->get('tops')){
-            $tops = Post::where('is_top','1')->take(2)->get();
-            session()->put('tops',$tops);
-        }
-        $posts = Post::where('is_top','0')->paginate(5);
+        $tops = Post::where('is_top','1')->take(2)->get();
+        session()->put('tops',$tops);
+
+        $posts = Post::where('is_top','0')->orderBy('created_at','desc')->paginate(10);
         return view('home.index.index',compact('posts'));
     }
     //登录页面
