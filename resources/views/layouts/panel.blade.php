@@ -94,8 +94,8 @@
         </div>
     </div>
     @login
-    <a href="/user/index/post" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
-    <a href="/user/index/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
+    <a href="/user/posts/index" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
+    <a href="/user/posts/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
     <a href="/user/post/add" class="layui-btn addPost">发表新帖</a>
     @else
     <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>

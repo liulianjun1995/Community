@@ -13,6 +13,7 @@
         }
     </style>
 
+    
     <div class="layui-container content">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8" >
@@ -100,7 +101,7 @@
                         @endif
                     </ul>
                 </div>
-                {{ $posts->links() }}
+                {{ $posts->render() }}
             </div>
 
             <div class="layui-col-md4">

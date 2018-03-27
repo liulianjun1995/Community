@@ -18,7 +18,8 @@
         "overtrue/socialite": "dev-master",
         "predis/predis": "^1.1",
         "tom-lingham/searchy": "2.*",
-        "toplan/laravel-sms": "dev-master"
+        "toplan/laravel-sms": "dev-master",
+        "weboap/visitor": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

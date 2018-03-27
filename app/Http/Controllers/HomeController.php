@@ -19,7 +19,7 @@ class HomeController extends Controller
             $tops = Post::where('is_top','1')->take(2)->get();
             session()->put('tops',$tops);
         }
-        $posts = Post::where('is_top','0')->paginate(10);
+        $posts = Post::where('is_top','0')->paginate(5);
         return view('home.index.index',compact('posts'));
     }
     //登录页面

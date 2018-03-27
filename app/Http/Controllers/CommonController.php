@@ -61,13 +61,7 @@ class CommonController extends Controller
 
     public function test(Request $request)
     {
-        /*
-        Mail::raw('恭喜你注册成功！',function ($message){
-            $message->subject('激活邮件');
-            $message->to('903993979@qq.com');
-        });
-        */
-        phpinfo();
+
     }
 
 

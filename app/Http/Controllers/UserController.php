@@ -92,6 +92,12 @@ class UserController extends Controller
         $user = User::find($id);
         return view('home.user.home',compact('user'));
     }
+    //我的帖子
+    public function posts()
+    {
+        $posts = Post::where('user_id',\Auth::id())->paginate(10);
+        return view('home.user.post',compact('posts'));
+    }
     //活跃榜
     public function getActiveRank()
     {

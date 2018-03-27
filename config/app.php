@@ -163,6 +163,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+
+
+        /*
+         * Package Service Providers...
+         */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Toplan\PhpSms\PhpSmsServiceProvider::class,
@@ -170,11 +176,6 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-
-
-        /*
-         * Package Service Providers...
-         */
 
         /*
          * Application Service Providers...

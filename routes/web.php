@@ -66,9 +66,9 @@ Route::group(['prefix'=>'user'],function (){
         //发表帖子页面
         Route::get('/post/add','PostController@add');
         //我发表的帖子
-        Route::get('/index/post','UserController@index');
+        Route::get('/posts/index','UserController@posts');
         //我收藏的帖子
-        Route::get('/index/collection','UserController@index');
+        Route::get('/posts/collection','UserController@posts');
         //发出评论
         Route::post('/doComment','CommentController@doComment');
         //赞评论
@@ -80,6 +80,7 @@ Route::group(['prefix'=>'user'],function (){
             return view('home.user.message');
         });
         //消息标记已读
+
         //签到
         Route::post('/{id}/signin','UserController@signin');
         //绑定手机号页面

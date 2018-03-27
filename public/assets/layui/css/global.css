@@ -51,6 +51,7 @@ i{font-style: normal;}
 .icon-biaoqing:before{content:"\e60f"}
 .icon-nan:before{content:"\e619"}
 .icon-nv:before{content:"\e61a"}
+.icon-tiezi:before{content: "\e635"}
 .icon-quitquanping:before{content:"\e61e"}
 .icon-zuichun:before{content:"\e61c"}
 .icon-charushuipingxian:before{content:"\e622"}
@@ -89,7 +90,6 @@ i{font-style: normal;}
 .icon-pinglun2:before{content:"\e62c"}
 .icon-jiaoliu:before{content:"\e6b7"}
 .icon-renzheng:before{content:"\e62e"}
-
 
 /* 辅助 */
 a:hover{color: #009688; transition: all .3s;}
