@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeToLxshequ;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -59,7 +60,7 @@ class CommonController extends Controller
     }
 
 
-    public function test(Request $request)
+    public function test()
     {
 
     }
