@@ -18,7 +18,6 @@ class CheckLogin
     {
         if(auth()->check()){
             return $next($request);
-
         }
         return redirect('/user/login')->withInput()->withErrors('请先登录');
     }

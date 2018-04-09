@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostViewEvent;
-use App\Http\Requests\Request;
 use App\Listeners\PostEventListener;
 use App\Model\Zan;
+use App\User;
 use Validator;
 use App\Model\Category;
 use App\Model\Post;
 use Auth;
 use Illuminate\Support\Facades\Cache;
 use Visitor;
+use DB;
 
 class PostController extends Controller
 {
@@ -36,8 +37,9 @@ class PostController extends Controller
 
         // //触发浏览次数统计时间
         // event(new PostViewEvent($post,$ip));
-        $post = Post::whereId($id)->first();
         Visitor::log($id);
+        $post = Post::find($id);
+        
         return view('home.post.detail',compact('post'));
     }
 
@@ -50,6 +52,13 @@ class PostController extends Controller
             'content' => 'required',
             'reward' => 'required|integer',
         ]);
+
+        if (Auth::user()->reward-request('reward')<0){
+            return [
+                'reward' => '您的飞吻不够，快去赚取飞吻吧'
+            ];
+        }
+
         if ($validator->fails()){
             //有错误
             return $validator->errors();
@@ -59,7 +68,8 @@ class PostController extends Controller
             $title = request('title');
             $content = request('content');
             $reward = request('reward');
-            if (Post::create(compact('category_id','title','content','reward','user_id'))){
+            $status = DB::table('users')->where('id',$user_id)->decrement('reward',$reward);
+            if ($status && Post::create(compact('category_id','title','content','reward','user_id'))){
                 return 1 ;
             }else{
                 return 0 ;

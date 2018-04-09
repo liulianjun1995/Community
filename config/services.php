@@ -36,9 +36,9 @@ return [
     ],
 
     'github' => [
-        'client_id'     => env('GITHUB_CLIENT_ID'),
-        'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect'      => env('GITHUB_CLIENT_REDIRECT'),
+        'client_id'     => '1d5399806ededee618a7',
+        'client_secret' => '6ca84e1b6e75a9645638dc66c904b5f52616bee6',
+        'redirect'      => 'http://localhost:8300/github/login'
     ],
 
 ];

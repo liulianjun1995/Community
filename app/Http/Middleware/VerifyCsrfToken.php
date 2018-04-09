@@ -12,7 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //屏蔽layui富文本插入的token
-        '/user/uploadImg'
+
     ];
 }

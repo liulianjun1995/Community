@@ -70,58 +70,12 @@
                         <legend>回帖</legend>
                     </fieldset>
 
-                    <ul class="jieda" id="jieda">
-                        @if($post->comments->count()>0)
-                        @foreach($post->comments as $comment)
-                        <li data-id="111">
-                            <a name="item-1111111111"></a>
-                            <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="">
-                                    <img src="{{ $comment->user->avatar }}" alt=" ">
-                                </a>
-                                <div class="fly-detail-user">
-                                    <a href="#" class="fly-link">
-                                        <cite>{{ $comment->user->name }}</cite>
-                                    </a>
-                                </div>
-                                <div class="detail-hits">
-                                    <span>{{ $comment->created_at->diffForHumans() }}</span>
-                                </div>
-                            </div>
-                            <div class="detail-body jieda-body photos">
-                                {!! $comment->content !!}
-                            </div>
-                            <div class="jieda-reply">
-                                @if($comment->zan(Auth::id())->exists())
-                                <span class="jieda-zan zanok" type="zan" onclick="unzan(this,{{ $comment->id }})">
-                                @else
-                                <span class="jieda-zan" type="zan" onclick="dozan(this,{{ $comment->id }})">
-                                @endif
-                                    <i class="iconfont icon-zan"></i>
-                                    <span>{{ $comment->zans->count() }}</span>
-                                </span>
-                                <span type="reply">
-                                    <i class="iconfont icon-svgmoban53"></i>
-                                    回复
-                                </span>
-                                <div class="jieda-admin">
-                                    <span type="edit">编辑</span>
-                                    <span type="del">删除</span>
-                                    <span class="jieda-accept" type="accept">采纳</span>
-                                </div>
-                            </div>
-                        </li>
-                        @endforeach
-                        @else
-                        <!-- 无数据时 -->
-                        <li class="fly-none">消灭零回复</li>
-                        @endif
-                    </ul>
-
+                    @include('home.post.comment')
                     <div class="layui-form layui-form-pane">
                         <form id="replyForm">
                             <div class="layui-form-item layui-form-text">
                                 <a name="comment"></a>
+                                <!-- 富文本编辑器-->
                                 <div id="my-editormd" >
                                     <textarea id="my-editormd-markdown-doc" style="display:none;"></textarea>
                                     <!-- 注意：name属性的值-->
@@ -240,6 +194,7 @@
                         target.addClass('zanok');
                         var zanNum = target.children('span').text();
                         target.children('span').text(parseInt(zanNum)+1);
+                        target.attr("onclick","unzan(this,"+id+")");
                     }else{
                         layer.msg(res.msg);
                     }
@@ -248,7 +203,6 @@
 
 
         }
-
         //取消赞
         function unzan(obj,id) {
             var target = $(obj);
@@ -261,6 +215,7 @@
                         target.removeClass('zanok');
                         var zanNum = target.children('span').text();
                         target.children('span').text(parseInt(zanNum)-1);
+                        target.attr("onclick","dozan(this,"+id+")");
                     }else{
                         layer.msg(res.msg);
                     }
@@ -297,7 +252,6 @@
             });
         </script>
 
-        <script src="{{ asset('/assets/js/home.js') }}"></script>
         <script src="{{ asset('/assets/editormd/lib/marked.min.js') }}"></script>
         <script src="{{ asset('/assets/editormd/lib/prettify.min.js') }}"></script>
         <script src="{{ asset('/assets/editormd/lib/raphael.min.js') }}"></script>
@@ -306,6 +260,7 @@
         <script src="{{ asset('/assets/editormd/lib/flowchart.min.js') }}"></script>
         <script src="{{ asset('/assets/editormd/lib/jquery.flowchart.min.js') }}"></script>
         <script src="{{ asset('/assets/editormd/editormd.js') }}"></script>
+        
     @endsection
 
 @endsection

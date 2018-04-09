@@ -62,7 +62,7 @@ class CommonController extends Controller
 
     public function test()
     {
-
+        phpinfo();
     }
 
 

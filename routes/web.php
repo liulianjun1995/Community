@@ -79,6 +79,8 @@ Route::group(['prefix'=>'user'],function (){
         Route::get('/posts/collection','UserController@posts');
         //发出评论
         Route::post('/doComment','CommentController@doComment');
+        //删除评论
+        Route::post('/delComment','CommentController@delComment');
         //赞评论
         Route::get('/{id}/zan','CommentController@zan');
         //取消赞

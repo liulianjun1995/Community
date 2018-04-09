@@ -42,6 +42,23 @@ class CommentController extends Controller
             ];
         }
     }
+    //删除评论
+    public function delComment()
+    {
+        if (Auth::id() == request('user_id')){
+            Comment::where('id',request('comment_id'))->delete();
+            return [
+                'error' => 0,
+                'msg' => '删除成功'
+            ];
+        }else{
+            return [
+                'error' => 1,
+                'msg' => '您没有权限操作'
+            ];
+        }
+
+    }
     //点赞评论
     public function zan($comment_id){
         $zan = new Zan();

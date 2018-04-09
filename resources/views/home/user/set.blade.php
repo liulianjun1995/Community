@@ -35,7 +35,7 @@
             <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">昵称</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_username" name="name" required lay-verify="required" autocomplete="off" value="{{ Auth::user()->name }}" class="layui-input">
+                <input type="text" id="L_username" name="name" required readonly lay-verify="required" autocomplete="off" value="{{ Auth::user()->name }}" class="layui-input">
               </div>
               <div class="layui-inline">
                 <div class="layui-input-inline">
@@ -102,7 +102,7 @@
           </form>
         </div>
         {{-- 帐号绑定 --}}
-        <div class="layui-form layui-form-pane layui-tab-item" @if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-show @endif>
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-show @endif" >
           <ul class="app-bind">
             <li class="fly-msg app-havebind">
               <i class="iconfont icon-qq"></i>

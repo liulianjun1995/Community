@@ -21,7 +21,6 @@ class UserController extends Controller
     public function info()
     {
         $validator  = Validator::make(request()->all(),[
-            'name' => 'required|unique:users|min:2|max:10',
             'sex' => 'required',
             'city' => 'required',
         ]);
@@ -98,7 +97,7 @@ class UserController extends Controller
         $posts = Post::where('user_id',\Auth::id())->paginate(10);
         return view('home.user.post',compact('posts'));
     }
-    //活跃榜
+    //活跃用户
     public function getActiveRank()
     {
         $users = User::has('comments', '>=', 1)->withCount('comments')->orderBy('comments_count','desc')->get();
@@ -195,6 +194,13 @@ class UserController extends Controller
         }
 
     }
+
+
+
+
+
+
+
     /**
      * 计算相差天数
      * @param $begin_time 开始时间戳

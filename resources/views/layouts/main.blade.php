@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/layui/css/layui.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/layui/css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/my.css') }}">
-    <link rel="stylesheet"href="{{ asset('/assets/editormd/css/editormd.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/editormd/css/editormd.css') }}" />
     <script src="{{ asset('/assets/js/jquery-2.1.4.js') }}"></script>
     <script src="{{ asset('/assets/js/layer.js') }}"></script>
     <script src="{{ asset('/assets/layui/layui.js') }}"></script>
