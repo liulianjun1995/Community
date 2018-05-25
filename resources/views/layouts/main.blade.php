@@ -31,7 +31,13 @@
 {{-- top锚点 --}}
 <ul class="layui-fixbar">
     @login
-    <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/create') }}'"></li>
+    @can('speak')
+        <li class="layui-icon" lay-type="bar1" onclick="layer.msg('您已被禁言')"></li>
+    @elsecan('defriend')
+        <li class="layui-icon" lay-type="bar1" onclick="layer.msg('您已被拉黑')"></li>
+    @elsecan()
+        <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/create') }}'"></li>
+    @endcan
     @else
     <li class="layui-icon" lay-type="bar1" onclick="layer.msg('请先登录')"></li>
     @endlogin
@@ -58,6 +64,7 @@
             'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
         }
     });
+
 </script>
 @yield('js')
 

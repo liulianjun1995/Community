@@ -45,7 +45,7 @@
 
 </style>
 {{-- 板块 --}}
-<div class="container" style="width:100%;height:100px;">
+<div class="layui-container content" style="width:100%;height:110px;">
     <div class="container" id="categorys">
 
     </div>
@@ -59,7 +59,7 @@
             var s = "";
             for(var i = 0;i<res.length;i++){
                 s += "<div class=\"x112 xs6 xm3\"><div class=\"category\"><dl><dt>";
-                s += "<a href=\"/category/"+res[i].id+"\">";
+                s += "<a href=\"/category/"+res[i].id+'/all'+"\">";
                 s += "<img src=\""+ res[i].img +"\" width=\"60px\" height=\"60px\" alt=\""+ res[i].name +"\"></a></dt>";
                 s += "<dd><p><a class=\"title\" href=\"#\" style=\""+res[i].style+"\">"+res[i].name+"</a></p>";
                 s += "<span>"+res[i].describe+"</span></dd>";

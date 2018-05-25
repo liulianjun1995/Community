@@ -45,7 +45,7 @@
                                     </div>
                                     <div class="layui-form-mid" style="bottom: 10px;">
                                       <span class="col-md-1 refereshrecapcha" onclick="refreshCaptcha()">
-                                        {!! captcha_img('flat')  !!}
+                                        {!! captcha_img('default')  !!}
                                       </span>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                     ,time: 1000
                                     ,shade: 0.1
                                 }, function(){
-
+                                    refreshCaptcha();
                                 });
                             }else {
                                 var error = '';
@@ -149,11 +149,12 @@
                                     time: 2500
                                     ,shade: 0.2
                                 });
+                                refreshCaptcha();
                             }
                         },
                         error:function () {
                             layer.msg('请求失败，请重试', function(){
-                                //关闭后的操作
+                                refreshCaptcha();
                             });
                         }
 

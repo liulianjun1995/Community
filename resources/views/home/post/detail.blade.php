@@ -15,11 +15,12 @@
                 <div class="fly-panel detail-box">
                     <h1>{{ $post->title }}</h1>
                     <div class="fly-detail-info">
-                        <!-- <span class="layui-badge">审核中</span>
-
-                        <span class="layui-badge" style="background-color: #999;">未结</span>
-                        <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
                         <sapn><a class="layui-badge" style="{{ $post->category->tip_style }}">{{ $post->category->name }}</a></sapn>
+                        @if($post->is_closed == 0)
+                        <span class="layui-badge" style="background-color: #999;">未结</span>
+                        @else
+                        <span class="layui-badge" style="background-color: #5FB878;">已结</span>
+                        @endif
                         @if($post->is_top == 1)
                         <span class="layui-badge layui-bg-orange">置顶</span>
                         @endif
@@ -27,13 +28,25 @@
                         <span class="layui-badge layui-bg-red">精帖</span>
                         @endif
                         <div class="fly-admin-box" data-id="123">
-                            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
-
-                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" is_sop="1">置顶</span>
-                            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
-
-                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" is_sticky="1">加精</span>
-                            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
+                            @can('post')
+                                @if($post->is_top ==0)
+                                <span class="layui-btn layui-btn-xs jie-admin " onclick="setTop(this,{{ $post->id }})">置顶</span>
+                                @elseif($post->is_top == 1)
+                                <span class="layui-btn layui-btn-xs jie-admin layui-bg-orange" onclick="cancelTop(this,{{ $post->id }})">取消置顶</span>
+                                @endif
+                                @if($post->is_sticky ==0)
+                                <span class="layui-btn layui-btn-xs jie-admin" onclick="setSticky(this,{{ $post->id }})">加精</span>
+                                @elseif($post->is_sticky == 1)
+                                <span class="layui-btn layui-btn-xs jie-admin layui-bg-red" onclick="cancelSticky(this,{{ $post->id }})">取消加精</span>
+                                @endif
+                            @endcan
+                            @if($post->user->id == Auth::id())
+                                <span class="layui-btn layui-btn-xs jie-admin" type="del" onclick="delPost({{ $post->id }},{{ $post->user->id }})">删除</span>
+                            @else
+                                @can('post')
+                                        <span class="layui-btn layui-btn-xs jie-admin" type="del" onclick="delPostByAdmin({{ $post->id }},{{ $post->user->id }})">删除</span>
+                                @endcan
+                            @endif
                         </div>
                         <span class="fly-list-nums">
                             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $post->comments->count() }}</a>
@@ -42,11 +55,14 @@
                     </div>
                     <div class="detail-about">
                         <a class="fly-avatar" href="/user/{{ $post->user->id }}/home">
-                            <img src="{{ $post->user->avatar }}" alt="{{ $post->user->name }}">
+                            @if(\App\Model\UserUseGoods::where('user_id',$post->user->id)->where('type_id','6')->get()->count())
+                                <img src="{{ \App\Model\Goods::where('id',\App\Model\UserUseGoods::where('type_id','6')->first()['goods_id'])->first()['img'] }}" style="display: inline-block;position:absolute;margin-top: -10px" draggable="false">
+                            @endif
+                            <img src="{{ $post->user->avatar }}" style="border-radius: 45px" alt="{{ $post->user->name }}">
                         </a>
                         <div class="fly-detail-user">
                             <a href="/user/{{ $post->user->id }}/home" class="fly-link">
-                                <cite>{{ $post->user->name }}</cite>
+                                <cite>{{ $post->user->name }}@admin <span style="color:#c00;">（管理员）</span>@endadmin</cite>
                             </a>
                             <span>{{ $post->created_at->diffForHumans() }}</span>
                         </div>
@@ -55,6 +71,15 @@
                             @if(Auth::id() == $post->user->id)
                             <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/user/post/{{ $post->id }}/edit">编辑此贴</a></span>
                             @endif
+                            @login
+                                @if($post->savePost(Auth::id())->exists())
+                                <span class="layui-btn layui-btn-xs jie-admin layui-btn-danger" type="save" onclick="unsavePost(this,{{ $post->id }})">取消收藏</span>
+                                @else
+                                <span class="layui-btn layui-btn-xs jie-admin" type="save" onclick="savePost(this,{{ $post->id }})">收藏</span>
+                                @endif
+                            @else
+                                <span class="layui-btn layui-btn-xs jie-admin" type="save" onclick="layer.msg('请先登录')">收藏</span>
+                            @endlogin
                         </div>
                     </div>
                     <div class="detail-body photos">
@@ -71,30 +96,11 @@
                     </fieldset>
 
                     @include('home.post.comment')
-                    <div class="layui-form layui-form-pane">
-                        <form id="replyForm">
-                            <div class="layui-form-item layui-form-text">
-                                <a name="comment"></a>
-                                <!-- 富文本编辑器-->
-                                <div id="my-editormd" >
-                                    <textarea id="my-editormd-markdown-doc" style="display:none;"></textarea>
-                                    <!-- 注意：name属性的值-->
-                                    <textarea id="my-editormd-html-code" style="display:none;"></textarea>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                @login
-                                <button class="layui-btn" lay-filter="reply" lay-submit>提交回复</button>
-                                @else
-                                <button class="layui-btn" type="button"  onclick="layer.msg('请先登录')">提交回复</button>
-                                @endlogin
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
 
             <div class="layui-col-md4">
+                @include('layouts.recommendation')
                 @include('layouts.right')
             </div>
 
@@ -115,12 +121,6 @@
     </script>
 
     <script>
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         layui.use(['form'], function(){
             var form = layui.form;
             layer = layui.layer;
@@ -171,59 +171,198 @@
                             });
                         }
                     },
-                    error:function () {
-                        layer.msg('请求失败，请重试', function(){
-                            //关闭后的操作
+                    error:function (res) {
+                        layer.msg(res.responseJSON.message, function(){
+                            //
                         });
                     }
                 });
                 event.preventDefault();
             });
         });
-
-        //点赞
-        function dozan(obj,id) {
-            var target = $(obj);
-            //alert(id);
-            $.ajax({
-                url:'/user/'+id+'/zan',
-                type:'get',
-                dataType:'json',
-                success:function (res) {
-                    if(res.error==1){
-                        target.addClass('zanok');
-                        var zanNum = target.children('span').text();
-                        target.children('span').text(parseInt(zanNum)+1);
-                        target.attr("onclick","unzan(this,"+id+")");
-                    }else{
-                        layer.msg(res.msg);
-                    }
-                }
-            });
-
-
-        }
-        //取消赞
-        function unzan(obj,id) {
+        //收藏
+        function savePost(obj,post_id) {
             var target = $(obj);
             $.ajax({
-                url:'/user/'+id+'/unzan',
-                type:'get',
+                url:'/user/savePost',
+                type:'post',
+                data:{'post_id':post_id},
                 dataType:'json',
                 success:function (res) {
-                    if(res.error==1){
-                        target.removeClass('zanok');
-                        var zanNum = target.children('span').text();
-                        target.children('span').text(parseInt(zanNum)-1);
-                        target.attr("onclick","dozan(this,"+id+")");
-                    }else{
-                        layer.msg(res.msg);
+                    if(res.error == 0){
+                        target.text('取消收藏');
+                        target.addClass('layui-btn-danger');
+                        target.attr('onclick',"unsavePost(this,"+post_id+")");
+                    }else {
+                        layer.msg('收藏失败，请稍后再试');
                     }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
                 }
             });
-
         }
-        
+        //取消收藏
+        function unsavePost(obj,post_id) {
+            var target = $(obj);
+            $.ajax({
+                url:'/user/unsavePost',
+                type:'post',
+                data:{'post_id':post_id},
+                dataType:'json',
+                success:function (res) {
+                    if(res.error == 0){
+                        target.text('收藏');
+                        target.removeClass('layui-btn-danger');
+                        target.attr('onclick',"savePost(this,"+post_id+")");
+                    }else {
+                        layer.msg('取消收藏失败，请稍后再试')
+                    }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
+                }
+            });
+        }
+        //删除
+        function delPost(post_id,user_id) {
+            layer.confirm('确定删除吗？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/user/post/"+post_id,
+                    type:"post",
+                    method:"DELETE",
+                    data:{'user_id':user_id},
+                    dataType:'json',
+                    success:function (res) {
+                        if (res.error == 0){
+                            layer.msg(res.msg);
+                            setTimeout("window.location.href='/';",2000);
+                        }else {
+                            layer.msg(res.msg);
+                        }
+                    },
+                    error:function () {
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                });
+
+            }, function(){
+
+            });
+        }
+        //置顶
+        function setTop(obj,post_id) {
+            $.ajax({
+                url:"/post/"+post_id+'/setTop',
+                type:"post",
+                dataType:'json',
+                success:function (res) {
+                    if (res == 1){
+                        var target = $(obj);
+                        target.text('取消置顶');
+                        target.addClass('layui-bg-orange');
+                        target.attr('onclick',"cancelTop(this,"+post_id+")");
+                    }else{
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
+                }
+            });
+        }
+        //取消置顶
+        function cancelTop(obj,post_id) {
+            $.ajax({
+                url:"/post/"+post_id+'/cancelTop',
+                type:"post",
+                dataType:'json',
+                success:function (res) {
+                    if (res == 1){
+                        var target = $(obj);
+                        target.text('置顶');
+                        target.removeClass('layui-bg-orange');
+                        target.attr('onclick',"setTop(this,"+post_id+")");
+                    }else{
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
+                }
+            });
+        }
+        //加精
+        function setSticky(obj,post_id) {
+            $.ajax({
+                url:"/post/"+post_id+'/setSticky',
+                type:"post",
+                dataType:'json',
+                success:function (res) {
+                    if (res == 1){
+                        var target = $(obj);
+                        target.text('取消加精');
+                        target.addClass('layui-bg-red');
+                        target.attr('onclick',"cancelSticky(this,"+post_id+")");
+                    }else{
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
+                }
+            });
+        }
+        //取消加精
+        function cancelSticky(obj,post_id) {
+            $.ajax({
+                url:"/post/"+post_id+'/setSticky',
+                type:"post",
+                dataType:'json',
+                success:function (res) {
+                    if (res == 1){
+                        var target = $(obj);
+                        target.text('加精');
+                        target.removeClass('layui-bg-red');
+                        target.attr('onclick',"setSticky(this,"+post_id+")");
+                    }else{
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                },
+                error:function () {
+                    layer.msg('请求失败，请稍后再试');
+                }
+            });
+        }
+        //删除
+        function delPostByAdmin(post_id,user_id) {
+            layer.confirm('确定删除吗？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/post/"+post_id+'/del',
+                    type:"post",
+                    data:{'user_id':user_id},
+                    dataType:'json',
+                    success:function (res) {
+                        if (res.error == 0){
+                            layer.msg(res.msg);
+                            setTimeout("window.location.href='/';",2000);
+                        }else {
+                            layer.msg(res.msg);
+                        }
+                    },
+                    error:function () {
+                        layer.msg('请求失败，请稍后再试');
+                    }
+                });
+
+            }, function(){
+
+            });
+        }
     </script>
     <script>
         //给帖子内容的超链接加上target

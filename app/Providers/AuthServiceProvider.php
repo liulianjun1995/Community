@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\Model\UserPermission;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +25,22 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        $permissions = UserPermission::all();
+
+        foreach ($permissions as $permission){
+            \Gate::define($permission->name,function ($user) use ($permission){
+                return $user->hasPermission($permission);
+            });
+        }
+
+        //能发言
+        \Gate::define('speak',function ($user){
+            return !!$user->isGag;
+        });
+
+        \Gate::define('defriend',function ($user){
+            return !!$user->isDefriend;
+        });
+
     }
 }

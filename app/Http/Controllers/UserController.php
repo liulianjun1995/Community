@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Model\Comment;
+use App\Model\Goods;
+use App\Model\GoodsType;
 use App\Model\Post;
+use App\Model\SavePost;
+use App\Model\UserUseGoods;
 use App\User;
 use Auth;
+use App\Model\Message;
 use Validator;
 use Request;
 use Toplan\Sms\Facades\SmsManager;
@@ -95,7 +101,29 @@ class UserController extends Controller
     public function posts()
     {
         $posts = Post::where('user_id',\Auth::id())->paginate(10);
-        return view('home.user.post',compact('posts'));
+        $savePosts = SavePost::where('user_id',Auth::id())->paginate(10);
+        return view('home.user.post',compact('posts','savePosts'));
+    }
+    //我的物品
+    public function goods()
+    {
+        $types = GoodsType::all();
+        $goods = Auth::user()->goods;
+        return view('home.user.goods',compact('types','goods'));
+    }
+    //我的消息
+    public function message()
+    {
+        $messages = Message::where('to_user_id',Auth::id())->where('is_read',false)->orderBy('created_at','desc')->paginate(10);
+        return view('home.user.message',compact('messages'));
+    }
+    //标记消息已读
+    public function readMessage()
+    {
+        Message::where('to_user_id',Auth::id())->update(['is_read'=>true]);
+        return [
+          'msg' => ''
+        ];
     }
     //活跃用户
     public function getActiveRank()
@@ -193,6 +221,103 @@ class UserController extends Controller
             return redirect()->back()->withErrors('您已绑定手机号');
         }
 
+    }
+    //收藏帖子
+    public function savePost()
+    {
+        $post_id = request('post_id');
+        $user_id = Auth::id();
+        if (SavePost::create(compact('post_id','user_id'))){
+            return [
+                'error' => '0',
+                'msg' => '收藏成功'
+            ];
+        }else{
+            return [
+                'error' => '1',
+                'msg' => '收藏失败'
+            ];
+        }
+    }
+    //取消收藏帖子
+    public function unsavePost()
+    {
+        $post_id = request('post_id');
+        $user_id = Auth::id();
+        if (SavePost::where('user_id',$user_id)->where('post_id',$post_id)->delete()){
+            return [
+                'error' => 0,
+                'msg' => '取消收藏成功'
+            ];
+        }else{
+            return [
+                'error' => '1',
+                'msg' => '取消收藏失败'
+            ];
+        }
+    }
+    //获取用户评论
+    public function getComments($user_id)
+    {
+        $comments = Comment::where('user_id',$user_id)->with('post')->orderBy('created_at','desc')->paginate(4);
+        return $comments;
+    }
+    //获取用户的帖子
+    public function getPosts($user_id)
+    {
+        $posts = Post::where('user_id',$user_id)
+            ->with(['category'])
+            ->withCount(['comments'])
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+        return $posts;
+    }
+    //用户兑换商品
+    public function changeGoods()
+    {
+        $goods = Goods::find(request('goods_id'));
+        if ($goods->number == 0){
+            return [
+                'error' => '1',
+                'msg' => '商品库存不足~~',
+            ];
+        }
+        $number = $goods->number;
+        $goods->number = ($number-1);
+
+        $user = Auth::user();
+        $reward = $user->reward;
+        $user->reward = $reward-($goods->price);
+        if ($user->assignGoods($goods) && $goods->save() && $user->save()){
+            return [
+                'error' => '0',
+                'msg' => '兑换成功'
+            ];
+        }else{
+            return [
+                'error' => '1',
+                'msg' => '兑换失败'
+            ];
+        }
+
+    }
+    //用户使用物品
+    public function useGoods(Goods $goods)
+    {
+        $goods_id = $goods->id;
+        $type_id = $goods->type_id;
+        $user_id = Auth::id();
+        if (UserUseGoods::updateOrCreate(compact('user_id','type_id'),compact('goods_id'))){
+            return [
+                'error' => '0',
+                'msg' => '使用成功'
+            ];
+        }else{
+            return [
+                'error' => '0',
+                'msg' => '使用失败'
+            ];
+        }
     }
 
 

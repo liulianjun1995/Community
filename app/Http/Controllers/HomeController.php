@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\LoginRequest;
 use App\Model\Category;
 use App\Model\Post;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\Request;
 use Socialite;
 use Validator;
 use Mail;
@@ -15,10 +17,11 @@ class HomeController extends Controller
     //首页
     public function index()
     {
-        $tops = Post::where('is_top','1')->take(2)->get();
+        $tops = Post::where('is_top','1')->take(5)->get();
         session()->put('tops',$tops);
 
-        $posts = Post::where('is_top','0')->orderBy('created_at','desc')->paginate(10);
+        $posts = Post::where('is_top','0')->orderBy('created_at','desc')->paginate(5);
+        $posts->load('user','category','comments','visitors');
         return view('home.index.index',compact('posts'));
     }
     //登录页面
@@ -38,21 +41,10 @@ class HomeController extends Controller
         var_dump($user->id);
     }
     //登录验证
-    public function login()
+    public function login(LoginRequest $request)
     {
-        //验证验证码
-        $validator = Validator::make(request()->all(),[
-            'captcha' => 'required|captcha',
-        ]);
-        if ($validator->fails()){
-            //验证码错误
-            return [
-                'error' => '0',
-                'msg' => '验证码错误'
-            ];
-        }
-        //验证账号密码
-        if (Auth::attempt(['email'=>request('email'),'password'=>request('password')])){
+        $field = filter_var($request->get('login'),FILTER_VALIDATE_EMAIL) ? 'email': 'phone';
+        if (Auth::attempt(["$field"=> $request->get('login'),'password'=>request('password')])){
             return [
               'error' => '1',
               'msg' => '登陆成功'
@@ -60,7 +52,7 @@ class HomeController extends Controller
         }else{
             return [
                 'error' => '0',
-                'msg' => '邮箱或密码有误'
+                'msg' => '用户名或密码有误'
             ];
         }
     }
@@ -89,7 +81,6 @@ class HomeController extends Controller
         $password = bcrypt(request('password'));
 
         if(User::create(compact('email','name','password'))){
-
             return 1;
         }else{
             return 0;

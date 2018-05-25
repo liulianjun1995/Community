@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\PostViewEvent;
 use App\Listeners\PostEventListener;
+use App\Model\Comment;
+use App\Model\SavePost;
 use App\Model\Zan;
 use App\User;
 use Validator;
@@ -42,7 +44,6 @@ class PostController extends Controller
         
         return view('home.post.detail',compact('post'));
     }
-
     //发布新帖逻辑
     public function store()
     {
@@ -76,7 +77,6 @@ class PostController extends Controller
             }
         }
     }
-    
     //修改新帖页面
     public function edit($id)
     {
@@ -109,26 +109,114 @@ class PostController extends Controller
             }
         }
     }
-
+    //删除帖子
+    public function destroy($id)
+    {
+        if (Auth::id() !== intval(request('user_id'))){
+            return [
+                'error' => '1',
+                'msg' => '您没有权限操作'
+            ];
+        }
+        if (Post::where('id',$id)->delete()){
+            Comment::where('post_id',$id)->delete();
+            SavePost::where('post_id',$id)->delete();
+            return [
+              'error' => '0',
+              'msg' => '删除成功'
+            ];
+        }else{
+            return [
+                'error' => '1',
+                'msg' => '删除失败'
+            ];
+        }
+    }
     //热门帖子
     public function hotPosts()
     {
-        $hotPosts = Post::has('comments', '>=', 3)->withCount('comments')->orderBy('comments_count','desc')->get();
+        $hotPosts = Post::has('comments', '>=', 3)->withCount('comments')->orderBy('comments_count', 'desc')->get();
         return $hotPosts;
     }
-
+    //推荐帖子
+    public function recommendations()
+    {
+        $recommendations = Post::where('is_sticky',true)->take(10)->get();
+        return $recommendations;
+    }
     //获取公告
     public function getGonggao(){
         $post = Post::where('category_id',4)->take(4)->get();
         return $post;
     }
-    
     //搜索
     public function search()
     {
-        $posts = Post::search(\request('content'))->paginate(10);
-        $msg = "以下是和<a style='color: red'>【".\request('content')."】</a>有关的内容";
+        $posts = Post::search(\request('query'))->paginate(10);
+        $posts->load('user','category','comments','visitors');
+        $msg = "以下是和【<a style='color: red'>".\request('query')."</a>】有关的内容";
         return view('home.index.index',compact('posts','msg'));
+    }
+    //根据帖子状态
+    public function post_status($status)
+    {
+        if (in_array($status,['1','2','3'])){
+            if ($status == '1'){
+                $posts = Post::where('is_closed',false)->paginate(10);
+            }else if ($status == '2'){
+                $posts = Post::where('is_closed',true)->paginate(10);
+            }else{
+                $posts = Post::where('is_sticky',true)->paginate(10);
+            }
+        }else{
+            return redirect()->action('HomeController@index');
+        }
+        return view('home.index.index',compact('posts'));
+    }
+    //帖子置顶
+    public function setTop(Post $post)
+    {
+        $post->is_top=1;
+        $post->save();
+        return 1;
+    }
+    //帖子取消置顶
+    public function cancelTop(Post $post)
+    {
+        $post->is_top=0;
+        $post->save();
+        return 1;
+    }
+    //帖子加精
+    public function setSticky(Post $post)
+    {
+        $post->is_sticky=1;
+        $post->save();
+        return 1;
+    }
+    //帖子取消加精
+    public function cancelSticky(Post $post)
+    {
+        $post->is_sticky=0;
+        $post->save();
+        return 1;
+    }
+    //管理员删除帖子
+    public function delPostByAdmin($post_id)
+    {
+        if (Post::where('id',$post_id)->delete()){
+            Comment::where('post_id',$post_id)->delete();
+            SavePost::where('post_id',$post_id)->delete();
+            return [
+                'error' => '0',
+                'msg' => '删除成功'
+            ];
+        }else{
+            return [
+                'error' => '1',
+                'msg' => '删除失败'
+            ];
+        }
     }
 
 }

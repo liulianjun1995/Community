@@ -1,3 +1,8 @@
+body {
+    background: url(../images/bg.jpg) repeat;
+    transition: all 0.3s ease-in-out;
+}
+
 @media screen and (min-width: 1080px) {
     .about{
         display: none;
@@ -7,7 +12,6 @@
 /* 分页的样式 */
 .pagination {
     padding-left: 0;
-    margin: 22px 0;
     border-radius: 4px;
     display: inline-block;
 }
@@ -55,4 +59,8 @@
     background: url('/assets/images/github.jpg');
     width: 40px;
     height: 40px;
+}
+.right-title{
+    color: #01aaed;
+    font-size: 16px;
 }

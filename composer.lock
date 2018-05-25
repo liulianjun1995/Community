@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b90213f3f328bd2e283405b36520e35c",
+    "content-hash": "14ea023abf12e65c1ccf027ae32bfe1e",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -177,6 +177,67 @@
                 }
             ],
             "time": "2016-06-13T19:28:20+00:00"
+        },
+        {
+            "name": "cmgmyr/messenger",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cmgmyr/laravel-messenger.git",
+                "reference": "dae63314aa0376aeb81799e134ff4be1eaae67c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/cmgmyr/laravel-messenger/dae63314aa0376aeb81799e134ff4be1eaae67c2.zip",
+                "reference": "dae63314aa0376aeb81799e134ff4be1eaae67c2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0",
+                "illuminate/database": "~5.0",
+                "illuminate/support": "~5.0",
+                "nesbot/carbon": "~1.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "adamwathan/faktory": "0.3.*",
+                "friendsofphp/php-cs-fixer": "^2.5",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cmgmyr\\Messenger\\MessengerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cmgmyr\\Messenger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Gmyr",
+                    "email": "cmgmyr@gmail.com",
+                    "homepage": "https://github.com/cmgmyr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple user messaging tool for Laravel",
+            "keywords": [
+                "Messenger",
+                "laravel",
+                "messaging",
+                "user messaging"
+            ],
+            "time": "2018-03-11T00:33:42+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -5787,6 +5848,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "algolia/algoliasearch-client-php": 20,
+        "cmgmyr/messenger": 20,
         "laravel/socialite": 20,
         "mews/captcha": 20,
         "overtrue/socialite": 20,

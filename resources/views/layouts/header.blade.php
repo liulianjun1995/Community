@@ -12,11 +12,11 @@
                 <li class="layui-nav-item layui-this home">
                     <a href="/"><i class="iconfont icon-shouye" style="top: 0px"></i>首页</a>
                 </li>
-                <li class="layui-nav-item shoucang">
-                    <a href="#"><i class="iconfont icon-shichang" style="top: 2px;"></i>收藏驿站</a>
-                </li>
+                {{--<li class="layui-nav-item shoucang">--}}
+                    {{--<a href="#"><i class="iconfont icon-shichang" style="top: 2px;"></i>收藏驿站</a>--}}
+                {{--</li>--}}
                 <li class="layui-nav-item jifen">
-                    <a href="#"><i class="iconfont icon-iconmingxinganli"></i>积分商城</a>
+                    <a href="{{ url('/shop') }}"><i class="iconfont icon-iconmingxinganli"></i>积分商城</a>
                 </li>
                 <li class="layui-nav-item github">
                     <a target="_blank" href="https://github.com/liulianjun1995/Comunity"><i class="layui-icon"></i>GitHub</a>
@@ -30,9 +30,12 @@
                 @login
                 <li class="layui-nav-item">
                     <a class="fly-nav-avatar" href="/user/{{ Auth::user()->id }}/home">
-                        <cite class="layui-hide-xs">{{ Auth::user()->name }}</cite>
+                        <cite class="layui-hide-xs">{{ Auth::user()->name }}@admin<span style="color:#c00;">（管理员）</span>@endadmin</cite>
                         {{--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：lxshequ 作者"></i>--}}
                         {{--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>--}}
+                        @if(\App\Model\UserUseGoods::where('user_id',Auth::user()->id)->where('type_id','6')->get()->count())
+                            <img src="{{ \App\Model\Goods::where('id',\App\Model\UserUseGoods::where('type_id','6')->first()['goods_id'])->first()['img'] }}" style="display: inline-block;position:absolute;margin-top: 2px" draggable="false">
+                        @endif
                         <img src="{{ Auth::user()->avatar }}">
                     </a>
                     <dl class="layui-nav-child">
@@ -44,8 +47,8 @@
                         <hr style="margin: 5px 0;">
                         <dd><a href="/user/logout" style="text-align: center;">退出</a></dd>
                     </dl>
-                    @if(count(Auth::user()->newComments)>0)
-                    <a class="fly-nav-msg" id="msg" href="{{ url('/user/message') }}">{{ Auth::user()->newComments->count() }}</a>
+                    @if(count(Auth::user()->newMessages))
+                    <a class="fly-nav-msg" id="msg" href="{{ url('/user/message') }}">{{ count(Auth::user()->newMessages) }}</a>
                     @endif
                 </li>
                 @else

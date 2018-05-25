@@ -6,8 +6,6 @@
     }
     .tab span{
         display: inline-block;
-        border: 1px solid #009E94;
-        border-right: none;
         font-size: 10px;
     }
     .tab span a{
@@ -15,7 +13,7 @@
         height: 36px;
         line-height: 36px;
         padding: 0 20px;
-        border-right: 1px solid #009E94;
+        border: 1px solid #009E94;
         font-size: 14px;
     }
     .tab>span>a:hover{
@@ -79,25 +77,36 @@
 </style>
 
 <div class="layui-tab layui-tab-brief tab">
-<span>
-   <a class="bg-this" href="/">全部</a>
-   <a href="#">未结帖</a>
-   <a href="#">已采纳</a>
-   <a href="#">精帖</a>
-</span>
-    <div class="layui-input-inline search" style="margin-left: 30px;width: 200px">
-        <div class="fly-search" style="width: 100%">
-            <i class="iconfont icon-sousuo" onclick="search($('#searchInput').val())"></i>
-            <input style="height: 34px;margin-top: 6px;font-size: 14px" id="searchInput" class="layui-input" autocomplete="off" placeholder="搜索内容" maxlength="10" type="text">
+    <div class="layui-container content">
+        @if(strpos($_SERVER['REQUEST_URI'],'category'))
+        <span>
+           <a href="/category/{{ $category_id }}/all" @if(strpos($_SERVER['REQUEST_URI'],'all')) class="bg-this" @endif>全部</a>
+           <a href="/category/{{ $category_id }}/1" @if(substr($_SERVER['REQUEST_URI'],-1) == '1') class="bg-this" @endif>未结帖</a>
+           <a href="/category/{{ $category_id }}/2" @if(substr($_SERVER['REQUEST_URI'],-1) == '2') class="bg-this" @endif>已结帖</a>
+           <a href="/category/{{ $category_id }}/3" @if(substr($_SERVER['REQUEST_URI'],-1) == '3') class="bg-this" @endif>精帖</a>
+        </span>
+        @else
+        <span>
+           <a href="/" @if($_SERVER['REQUEST_URI'] == "/") class="bg-this" @endif>全部</a>
+           <a href="/posts/1" @if(substr($_SERVER['REQUEST_URI'],-1) == '1') class="bg-this" @endif>未结帖</a>
+           <a href="/posts/2" @if(substr($_SERVER['REQUEST_URI'],-1) == '2') class="bg-this" @endif>已结帖</a>
+           <a href="/posts/3" @if(substr($_SERVER['REQUEST_URI'],-1) == '3') class="bg-this" @endif>精帖</a>
+        </span>
+        @endif
+        <div class="layui-input-inline search" style="margin-left: 30px;width: 200px">
+            <div class="fly-search" style="width: 100%">
+                <i class="iconfont icon-sousuo" onclick="search($('#searchInput').val())"></i>
+                <input style="height: 34px;margin-top: 6px;font-size: 14px" id="searchInput" class="layui-input" autocomplete="off" placeholder="搜索内容" maxlength="10" type="text">
+            </div>
         </div>
+        @login
+        <a href="/user/posts/index" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
+        <a href="/user/posts/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
+        <a href="/user/post/create" class="layui-btn addPost">发表新帖</a>
+        @else
+            <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>
+            @endlogin
     </div>
-    @login
-    <a href="/user/posts/index" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
-    <a href="/user/posts/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
-    <a href="/user/post/create" class="layui-btn addPost">发表新帖</a>
-    @else
-    <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>
-    @endlogin
 </div>
 <script>
     //监听input点击事件
@@ -115,7 +124,7 @@
         if(input==null || input==""){
             layer.msg('请输入检索内容');
         }else{
-            window.location.href = '/search?content='+input;
+            window.location.href = '/search?query='+input;
         }
     }
 </script>

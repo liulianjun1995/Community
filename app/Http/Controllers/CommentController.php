@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\Comment;
+use App\Model\Message;
+use App\Model\Post;
 use App\Model\Zan;
 use Request;
 use Validator;
@@ -28,8 +30,20 @@ class CommentController extends Controller
         $data['content'] = request('my-editormd-html-code');
 
         $status = Comment::create($data);
+
         if ($status){
             //添加评论成功
+            $post = Post::find(request('post_id'));
+            $to_user_id = $post->user->id;
+            if ($to_user_id != request('user_id')){
+                Message::create([
+                    'from_user_id'=>Auth::id(),
+                    'to_user_id'=>$to_user_id,
+                    'type'=>'comment',
+                    'post_id'=>request('post_id'),
+                    'CommentOrZan_id' => Comment::orderBy('id','asc')->first()['id'],
+                ]);
+            }
             return [
                 'error' => '1',
                 'msg' => '评论成功'
@@ -57,6 +71,28 @@ class CommentController extends Controller
                 'msg' => '您没有权限操作'
             ];
         }
+
+    }
+    //采纳评论
+    public function acceptComment()
+    {
+        $post_id = request('post_id');
+        $comment_id = request('comment_id');
+        $post_user_id = request('post_user_id');
+        if (Auth::id() != $post_user_id){
+            return [
+              'error' => '1',
+              'msg' => '您没有权限操作'
+            ];
+        }
+
+        Post::where("id",$post_id)->update(['is_closed'=>true]);
+        Comment::where('id',$comment_id)->update(['is_accept'=>true]);
+
+        return [
+            'error' => '0',
+            'msg' => '采纳成功'
+        ];
 
     }
     //点赞评论

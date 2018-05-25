@@ -23,15 +23,15 @@
             <div class="layui-form layui-form-pane">
               <form method="post" id="loginForm">
                 <div class="layui-form-item">
-                  <label for="L_email" class="layui-form-label">邮箱</label>
+                  <label for="L_email" class="layui-form-label">邮箱/手机</label>
                   <div class="layui-input-inline">
-                    <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                    <input type="text" id="login" name="login" lay-verify="login" autocomplete="off" class="layui-input">
                   </div>
                 </div>
                 <div class="layui-form-item">
                   <label for="L_pass" class="layui-form-label">密码</label>
                   <div class="layui-input-inline">
-                    <input type="password" id="L_pass" name="password" required lay-verify="password" autocomplete="off" class="layui-input">
+                    <input type="password" name="password" required lay-verify="password" autocomplete="off" class="layui-input">
                   </div>
                 </div>
               <div class="layui-form-item">
@@ -41,7 +41,7 @@
                   </div>
                   <div class="layui-form-mid" style="bottom: 10px;">
                       <span class="col-md-1 refereshrecapcha"  onclick="refreshCaptcha()">
-                        {!! captcha_img('flat')  !!}
+                        {!! captcha_img('default')  !!}
                       </span>
                   </div>
               </div>
@@ -84,6 +84,7 @@
           //自定义验证规则
           form.verify({
               password: [/(.+){6,12}$/, '密码必须6到12位'],
+              login: [/(^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$)|(^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$)/,'请输入正确的邮箱或手机号'],
           });
 
           //监听提交
@@ -110,16 +111,28 @@
                           });
                       }else {
                           layer.msg(res.msg, {
-                              time: 1000
+                              icon: 2
+                              ,time: 1000
                               ,shade: 0.2
                           });
-                          refreshCaptcha();
                       }
                   },
-                  error:function () {
-                      layer.msg('请求失败，请重试', function(){
-                          //关闭后的操作
+                  error:function (res) {
+                      var error = '';
+                      if (res.responseJSON.errors.captcha != undefined){
+                          error += res.responseJSON.errors.captcha+"<br>";
+                      }
+                      if (res.responseJSON.errors.login != undefined){
+                          error += res.responseJSON.errors.login;
+                      }
+                      if (res.responseJSON.errors.password != undefined){
+                          error += res.responseJSON.errors.password;
+                      }
+                      layer.msg(error, {
+                          time: 2500
+                          ,shade: 0.2
                       });
+                      refreshCaptcha();
                   }
               });
               event.preventDefault();

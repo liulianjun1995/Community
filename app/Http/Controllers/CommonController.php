@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\WelcomeToLxshequ;
+use App\Model\AdminUser;
+use App\Model\Goods;
+use App\Model\GoodsType;
+use App\Model\UserPermission;
+use App\Model\UserRole;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -46,7 +51,7 @@ class CommonController extends Controller
     //刷新验证码
     public function refereshcapcha()
     {
-        return captcha_img('flat');
+        return captcha_img('default');
     }
     //发送邮箱
     public function email()
@@ -59,10 +64,11 @@ class CommonController extends Controller
 
     }
 
-
     public function test()
     {
-        phpinfo();
+        echo "<pre>";
+        $id = \App\Model\Goods::where('id',\App\Model\UserUseGoods::where('type_id','6')->first()['goods_id'])->first()['img'];
+        var_dump($id);
     }
 
 

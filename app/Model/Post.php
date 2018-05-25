@@ -24,21 +24,6 @@ class Post extends Model
     }
 
     /**
-     * 获取模型的索引数据数组
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        $array = $this->toArray();
-
-        // 自定义数组...
-
-        return $array;
-    }
-
-
-    /**
      * 文章所属用户
      */
     public function user()
@@ -59,12 +44,18 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany('App\Model\Comment')->orderBy('created_at','desc');
+        return $this->hasMany('App\Model\Comment')->orderBy('is_accept','desc')->orderBy('created_at','desc');
     }
     //文章浏览次数
     public function visitors()
     {
-        return $this->hasMany('App\VisitorRegistry');
+        return $this->hasMany('App\VisitorRegistry','post_id','id');
+    }
+    
+    //判断一个用户是否收藏了这篇文章
+    public function savePost($user_id)
+    {
+        return $this->hasOne(\App\Model\SavePost::class)->where('user_id',$user_id);
     }
 
 }

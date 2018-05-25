@@ -1,5 +1,5 @@
 <div class="fly-panel fly-link">
-    <h3 class="fly-panel-title">友情链接</h3>
+    <h3 class="fly-panel-title right-title">友情链接</h3>
     <dl class="fly-panel-main">
         <dd><a href="http://www.layui.com/" target="_blank">layui</a><dd>
         <dd><a href="http://layer.layui.com/" target="_blank">layer</a><dd>

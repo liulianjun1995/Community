@@ -8,6 +8,7 @@
         "php": ">=7.0.0",
         "algolia/algoliasearch-client-php": "dev-master",
         "barryvdh/laravel-ide-helper": "^2.4",
+        "cmgmyr/messenger": "dev-master",
         "fideloper/proxy": "~3.3",
         "ibrand/laravel-sms": "~1.0",
         "laravel/framework": "5.5.*",

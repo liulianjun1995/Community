@@ -28,6 +28,12 @@ $uri = substr($str,0);
             我的帖子
         </a>
     </li>
+    <li class="layui-nav-item @if(strpos($uri,'goods')!==false) layui-this @endif">
+        <a href="{{ url('/user/goods') }}">
+            <i class="layui-icon">&#xe698;</i>
+            我的物品
+        </a>
+    </li>
     <li class="layui-nav-item @if($uri=="message") layui-this @endif">
         <a href="{{ url('/user/message') }}">
             <i class="layui-icon">&#xe611;</i>

@@ -13,7 +13,7 @@
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
         {{-- 我的资料 --}}
-        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'info')!==false) layui-show @endif">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'info')!==false) layui-show @endif" style="margin: 10px 10px">
           <form id="infoForm">
               <div class="layui-form-item">
                   <label for="phone" class="layui-form-label">手机号</label>
@@ -62,7 +62,7 @@
           </form>
         </div>
         {{-- 头像 --}}
-        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'avatar')!==false) layui-show @endif">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'avatar')!==false) layui-show @endif" style="margin: 10px 10px">
           <div class="layui-form-item">
             <div class="avatar-add">
               <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
@@ -75,7 +75,7 @@
           </div>
         </div>
         {{-- 密码 --}}
-        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'pass')!==false) layui-show @endif">
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'pass')!==false) layui-show @endif" style="margin: 10px 10px">
           <form action="/user/repass" method="post">
             <div class="layui-form-item">
               <label for="L_nowpass" class="layui-form-label">当前密码</label>
@@ -102,24 +102,13 @@
           </form>
         </div>
         {{-- 帐号绑定 --}}
-        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-show @endif" >
+        <div class="layui-form layui-form-pane layui-tab-item @if(strpos($_SERVER['REQUEST_URI'],'bind')!==false) layui-show @endif" style="margin: 10px 10px">
           <ul class="app-bind">
-            <li class="fly-msg app-havebind">
-              <i class="iconfont icon-qq"></i>
-              <span>已成功绑定，您可以使用QQ帐号直接登录Fly社区，当然，您也可以</span>
-              <a href="javascript:;" class="acc-unbind" type="qq_id">解除绑定</a>
-
-              <!-- <a href="" onclick="layer.msg('正在绑定微博QQ', {icon:16, shade: 0.1, time:0})" class="acc-bind" type="qq_id">立即绑定</a>
-              <span>，即可使用QQ帐号登录Fly社区</span> -->
-            </li>
-            <li class="fly-msg">
-              <i class="iconfont icon-weibo"></i>
-              <!-- <span>已成功绑定，您可以使用微博直接登录Fly社区，当然，您也可以</span>
-              <a href="javascript:;" class="acc-unbind" type="weibo_id">解除绑定</a> -->
-
-              <a href="" class="acc-weibo" type="weibo_id"  onclick="layer.msg('正在绑定微博', {icon:16, shade: 0.1, time:0})" >立即绑定</a>
-              <span>，即可使用微博帐号登录Fly社区</span>
-            </li>
+              <li class="fly-msg">
+                  <img src="{{ asset('/assets/images/phone.png') }}" alt="" width="26px" height="26px">
+                  <a href="">立即绑定</a>
+                  <span>,即可使用手机帐号登录</span>
+              </li>
           </ul>
         </div>
       </div>

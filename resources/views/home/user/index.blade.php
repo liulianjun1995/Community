@@ -63,7 +63,7 @@
                 <div class="fly-panel-main">
                     <ul class="layui-row layui-col-space10 fly-shortcut">
                         <li class="layui-col-sm3 layui-col-xs4">
-                            <a href="{{ url('/user/set') }}">
+                            <a href="{{ url('/user/set/info') }}">
                                 <i class="layui-icon"></i>
                                 <cite>修改信息</cite>
                             </a>

@@ -23,9 +23,15 @@
                     <div class="layui-input-block">
                       <select lay-verify="required" name="category" lay-filter="column">
                         <option></option>
-                        @foreach($categorys as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
+                            @foreach($categorys as $category)
+                              @if($category->name == '公告')
+                                @can('Announcement')
+                            <option value="{{ $category->id }}" hidden>{{ $category->name }}</option>
+                                @endcan
+                              @else
+                            <option value="{{ $category->id }}" hidden>{{ $category->name }}</option>
+                              @endif
+                            @endforeach
                       </select>
                     </div>
                   </div>
@@ -33,7 +39,6 @@
                     <label for="L_title" class="layui-form-label">标题</label>
                     <div class="layui-input-block">
                       <input type="text" id="L_title" name="title" required lay-verify="title" autocomplete="off" class="layui-input">
-                    <!-- <input type="hidden" name="id" value=""> -->
                     </div>
                   </div>
                 </div>
@@ -60,7 +65,13 @@
                   </div>
                 </div>
                 <div class="layui-form-item">
-                  <button class="layui-btn" lay-filter="addPost" lay-submit>立即发布</button>
+                    @can('speak')
+                        <button class="layui-btn" type="button"  onclick="layer.msg('您已被禁言')">提交回复</button>
+                    @elsecan('defriend')
+                        <button class="layui-btn" type="button"  onclick="layer.msg('您已被拉黑')">提交回复</button>
+                    @elsecan()
+                        <button class="layui-btn" lay-filter="addPost" lay-submit>立即发布</button>
+                    @endcan
                 </div>
               </form>
             </div>
@@ -72,11 +83,9 @@
 
   <script>
 
-      layui.use(['form','layedit'], function(){
+      layui.use(['form'], function(){
           var form = layui.form;
               layer = layui.layer;
-              layedit = layui.layedit;
-
           //自定义验证规则
           form.verify({
               title: function(value){
@@ -85,7 +94,6 @@
                   }
               }
           });
-
           //监听提交
           form.on('submit(addPost)', function(){
               var fm = document.getElementById('addForm');
@@ -164,7 +172,6 @@
             });
         });
     </script>
-
     <script src="{{ asset('/assets/editormd/lib/marked.min.js') }}"></script>
     <script src="{{ asset('/assets/editormd/lib/prettify.min.js') }}"></script>
     <script src="{{ asset('/assets/editormd/lib/raphael.min.js') }}"></script>
