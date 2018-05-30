@@ -47,19 +47,20 @@ class PostController extends Controller
     //发布新帖逻辑
     public function store()
     {
+        //表单验证
         $validator  = Validator::make(request()->all(),[
             'category' => 'required',
             'title' => 'required|min:5|max:50',
             'content' => 'required',
             'reward' => 'required|integer',
         ]);
-
+        //判断用户积分是否足够
         if (Auth::user()->reward-request('reward')<0){
             return [
                 'reward' => '您的飞吻不够，快去赚取飞吻吧'
             ];
         }
-
+        //判断表单验证
         if ($validator->fails()){
             //有错误
             return $validator->errors();
@@ -69,7 +70,9 @@ class PostController extends Controller
             $title = request('title');
             $content = request('content');
             $reward = request('reward');
-            $status = DB::table('users')->where('id',$user_id)->decrement('reward',$reward);
+            $status = DB::table('users')
+                ->where('id',$user_id)
+                ->decrement('reward',$reward);
             if ($status && Post::create(compact('category_id','title','content','reward','user_id'))){
                 return 1 ;
             }else{
@@ -141,7 +144,7 @@ class PostController extends Controller
     //推荐帖子
     public function recommendations()
     {
-        $recommendations = Post::where('is_sticky',true)->take(10)->get();
+        $recommendations = Post::where('is_sticky',true)->withCount('comments')->take(10)->get();
         return $recommendations;
     }
     //获取公告
@@ -153,6 +156,7 @@ class PostController extends Controller
     public function search()
     {
         $posts = Post::search(\request('query'))->paginate(10);
+        //预加载
         $posts->load('user','category','comments','visitors');
         $msg = "以下是和【<a style='color: red'>".\request('query')."</a>】有关的内容";
         return view('home.index.index',compact('posts','msg'));

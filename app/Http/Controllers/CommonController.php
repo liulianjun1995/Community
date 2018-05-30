@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountMail;
 use App\Mail\WelcomeToLxshequ;
 use App\Model\AdminUser;
 use App\Model\Goods;
 use App\Model\GoodsType;
+use App\Model\UserActivation;
 use App\Model\UserPermission;
 use App\Model\UserRole;
 use App\User;
@@ -66,9 +68,13 @@ class CommonController extends Controller
 
     public function test()
     {
-        echo "<pre>";
-        $id = \App\Model\Goods::where('id',\App\Model\UserUseGoods::where('type_id','6')->first()['goods_id'])->first()['img'];
-        var_dump($id);
+//        Mail::send('emails.test',['name' => '测试人'],function ($message){
+//            $to = '750214261@qq.com';
+//            $message->to($to)->subject('测试邮件');
+//        });
+        $todayLogin = \DB::select("select *  from users where to_days(last_login_time) = to_days(now())");
+
+        var_dump(count($todayLogin));
     }
 
 

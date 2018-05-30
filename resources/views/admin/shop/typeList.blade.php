@@ -18,7 +18,7 @@
         </div>
     </fieldset>
     <fieldset id="articleList" class="layui-elem-field layui-field-title sys-list-field" style="display:block;text-align: center">
-        <legend id="articleBoxTitle">商品列表</legend>
+        <legend id="articleBoxTitle">商品类别列表</legend>
         <div class="layui-field-box">
             <div id="articleContent" class="">
                 <table style="width: auto;margin: 0 auto" class="layui-table" lay-even="">

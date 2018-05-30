@@ -11,6 +11,14 @@
             </script>
         @endforeach
     @endif
+    @if(isset($account))
+        <script>
+            layer.msg("{{ $account }}", {
+                time: 1000
+                ,shade: 0.2
+            });
+        </script>
+    @endif
   <div class="layui-container fly-marginTop">
     <div class="fly-panel fly-panel-user" pad20>
       <div class="layui-tab layui-tab-brief" lay-filter="user">
@@ -115,6 +123,7 @@
                               ,time: 1000
                               ,shade: 0.2
                           });
+                          refreshCaptcha();
                       }
                   },
                   error:function (res) {

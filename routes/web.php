@@ -16,8 +16,11 @@ Route::get('/test','CommonController@test');
 Route::get('/','HomeController@index');
 //积分商城
 Route::get('/shop','GoodsController@index');
+//关于
+Route::get('/about','HomeController@about')->name('about');
 //热门帖子
 Route::get('hotPosts','PostController@hotPosts');
+//获取推荐帖
 Route::get('recommendations','PostController@recommendations');
 //获取活跃榜
 Route::get('getActiveRank','UserController@getActiveRank');
@@ -58,11 +61,12 @@ Route::group(['prefix'=>'user'],function (){
     Route::get('/reg','HomeController@regIndex');
     //注册逻辑
     Route::post('/reg','HomeController@reg');
+    Route::get('/accountActivation','HomeController@accountActivation');
     //其他用户主页
     Route::get('/{id}/home','UserController@userHome');
 
     //需要用户登录验证
-    Route::group(['middleware'=>'checkLogin'],function (){
+    Route::group(['middleware'=> ['checkLogin']],function (){
         //退出登录
         Route::get('/logout','HomeController@logout');
         //个人资料页面
@@ -84,7 +88,7 @@ Route::group(['prefix'=>'user'],function (){
         //帖子路由
         Route::resource('post','PostController',['only' => [
             'create','store','edit','update','destroy'
-        ]])->middleware('can:speak,defriend');
+        ]]);
         //收藏帖子
         Route::post('/savePost','UserController@savePost');
         //取消收藏帖子
@@ -94,7 +98,7 @@ Route::group(['prefix'=>'user'],function (){
         //我收藏的帖子
         Route::get('/posts/collection','UserController@posts');
         //发出评论
-        Route::post('/doComment','CommentController@doComment')->middleware('can:speak,defriend');
+        Route::post('/doComment','CommentController@doComment');
         //删除评论
         Route::post('/delComment','CommentController@delComment');
         //采纳评论
@@ -138,6 +142,7 @@ Route::group(['middleware' => 'can:post'],function (){
     //帖子删除
     Route::post('/post/{post_id}/del','PostController@delPostByAdmin');
 });
+
 
 include_once 'admin.php';
 

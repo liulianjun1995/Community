@@ -31,12 +31,6 @@
                     </div>
                     @endif
                 </div>
-                {{-- 系统通知 --}}
-                <div class="layui-tab-item layui-show">
-                    <div id="LAY_minemsg">
-                        <div class="fly-none">您暂时没有最新消息</div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -47,7 +41,6 @@
                 'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $.ajax({
             url:'/user/readMessage',
             type:'post',

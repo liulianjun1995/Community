@@ -44,7 +44,7 @@
                                 <span class="layui-btn layui-btn-xs jie-admin" type="del" onclick="delPost({{ $post->id }},{{ $post->user->id }})">删除</span>
                             @else
                                 @can('post')
-                                        <span class="layui-btn layui-btn-xs jie-admin" type="del" onclick="delPostByAdmin({{ $post->id }},{{ $post->user->id }})">删除</span>
+                                <span class="layui-btn layui-btn-xs jie-admin" type="del" onclick="delPostByAdmin({{ $post->id }},{{ $post->user->id }})">删除</span>
                                 @endcan
                             @endif
                         </div>
@@ -92,9 +92,8 @@
 
                 <div class="fly-panel detail-box" id="flyReply">
                     <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
-                        <legend>回帖</legend>
+                        <legend>评论</legend>
                     </fieldset>
-
                     @include('home.post.comment')
                 </div>
             </div>
@@ -171,9 +170,9 @@
                             });
                         }
                     },
-                    error:function (res) {
-                        layer.msg(res.responseJSON.message, function(){
-                            //
+                    error:function () {
+                        layer.msg('请求失败，请重试', function(){
+
                         });
                     }
                 });
@@ -224,7 +223,7 @@
                 }
             });
         }
-        //删除
+        //删除帖子
         function delPost(post_id,user_id) {
             layer.confirm('确定删除吗？', {
                 btn: ['是','否'] //按钮

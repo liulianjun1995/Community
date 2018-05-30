@@ -22,7 +22,7 @@
                     <a target="_blank" href="https://github.com/liulianjun1995/Comunity"><i class="layui-icon"></i>GitHub</a>
                 </li>
                 <li class="layui-nav-item about">
-                    <a href="#"><i class="iconfont icon-wenda"></i>关于</a>
+                    <a href="{{ route('about') }}"><i class="iconfont icon-wenda"></i>关于</a>
                 </li>
             </ul>
 

@@ -47,9 +47,11 @@ class UserController extends Controller
     {
         //上传图片具体操作
         $file_name = $_FILES['file']['name'];
-        //$file_type = $_FILES["file"]["type"];
+        //文件名
         $file_tmp = $_FILES["file"]["tmp_name"];
+        //错误代码
         $file_error = $_FILES["file"]["error"];
+        //文件大小
         $file_size = $_FILES["file"]["size"];
         if ($file_error > 0) { // 出错
             $message = $file_error;
@@ -64,7 +66,7 @@ class UserController extends Controller
             if (file_exists($file_path)) {
                 $message = "此文件已经存在啦";
             } else {
-                //TODO 判断当前的目录是否存在，若不存在就新建一个!
+                //判断当前的目录是否存在，若不存在就新建一个!
                 if (!is_dir($path)){mkdir($path,0777);}
                 $upload_result = move_uploaded_file($file_tmp, $file_path);
                 $avatar = "/".$file_path;
@@ -100,21 +102,27 @@ class UserController extends Controller
     //我的帖子
     public function posts()
     {
+        //我的帖子
         $posts = Post::where('user_id',\Auth::id())->paginate(10);
+        //收藏的帖子
         $savePosts = SavePost::where('user_id',Auth::id())->paginate(10);
         return view('home.user.post',compact('posts','savePosts'));
     }
     //我的物品
     public function goods()
     {
+        //商品类别
         $types = GoodsType::all();
+        //我的物品
         $goods = Auth::user()->goods;
         return view('home.user.goods',compact('types','goods'));
     }
     //我的消息
     public function message()
     {
-        $messages = Message::where('to_user_id',Auth::id())->where('is_read',false)->orderBy('created_at','desc')->paginate(10);
+        $messages = Message::where('to_user_id',Auth::id())
+            ->orderBy('created_at','desc')
+            ->paginate(10);
         return view('home.user.message',compact('messages'));
     }
     //标记消息已读
@@ -314,7 +322,7 @@ class UserController extends Controller
             ];
         }else{
             return [
-                'error' => '0',
+                'error' => '1',
                 'msg' => '使用失败'
             ];
         }

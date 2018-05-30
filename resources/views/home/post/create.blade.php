@@ -8,11 +8,10 @@
     </style>
   <div class="layui-container fly-marginTop">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
-      <!--<div class="fly-none">没有权限</div>-->
       <div class="layui-form layui-form-pane">
         <div class="layui-tab layui-tab-brief" lay-filter="user">
           <ul class="layui-tab-title">
-            <li class="layui-this">发表新帖<!-- 编辑帖子 --></li>
+            <li class="layui-this">发表新帖</li>
           </ul>
           <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
             <div class="layui-tab-item layui-show">
@@ -67,9 +66,9 @@
                 <div class="layui-form-item">
                     @can('speak')
                         <button class="layui-btn" type="button"  onclick="layer.msg('您已被禁言')">提交回复</button>
-                    @elsecan('defriend')
+                    @elsecan('friend')
                         <button class="layui-btn" type="button"  onclick="layer.msg('您已被拉黑')">提交回复</button>
-                    @elsecan()
+                    @else
                         <button class="layui-btn" lay-filter="addPost" lay-submit>立即发布</button>
                     @endcan
                 </div>

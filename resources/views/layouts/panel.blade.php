@@ -102,7 +102,13 @@
         @login
         <a href="/user/posts/index" class="myPosts" style="margin-left: 200px;">我发表的贴</a>
         <a href="/user/posts/collection" class="myCollections" style="margin-left: 50px">我收藏的贴</a>
-        <a href="/user/post/create" class="layui-btn addPost">发表新帖</a>
+            @can('speak')
+                <a class="layui-btn addPost"  onclick="layer.msg('您已被禁言')">发表新帖</a>
+            @elsecan('friend')
+                <a class="layui-btn addPost"  onclick="layer.msg('您已被拉黑')">发表新帖</a>
+            @else
+                <a href="/user/post/create" class="layui-btn addPost">发表新帖</a>
+            @endcan
         @else
             <a href="javascript:void(0)" class="layui-btn addPost" onclick="layer.msg('请先登录')">发表新帖</a>
             @endlogin

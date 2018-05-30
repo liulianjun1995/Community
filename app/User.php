@@ -7,6 +7,7 @@ use App\Model\AdminUser;
 use App\Model\DefriendUser;
 use App\Model\GagUser;
 use App\Model\Goods;
+use App\Model\UserActivation;
 use App\Model\UserGoods;
 use App\Model\UserUseGoods;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +21,12 @@ class User extends Authenticatable
         'email','name','password'
     ];
 
+    //用户是否激活账户
+    public function activations()
+    {
+        return $this->hasOne(UserActivation::class,'user_id','id');
+    }
+    
     /**
      * 我的评论
      */

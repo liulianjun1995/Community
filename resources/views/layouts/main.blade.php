@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>lxshequ - lxshequ.com</title>
+    <title>{{ config('home.site.title') }}</title>
     <link rel="shortcut icon" href="{{ asset('/assets/images/1491.gif') }}">
     <link rel="stylesheet" href="{{ asset('/assets/layui/css/layui.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/layui/css/global.css') }}">
@@ -20,8 +20,6 @@
 <body onscroll="scroll()">
 {{-- 导航栏 --}}
 @include('layouts.header')
-{{-- canvas图画 --}}
-@include('layouts.canvas')
 {{-- 板块 --}}
 @include('layouts.category')
 @yield('container')
@@ -35,7 +33,7 @@
         <li class="layui-icon" lay-type="bar1" onclick="layer.msg('您已被禁言')"></li>
     @elsecan('defriend')
         <li class="layui-icon" lay-type="bar1" onclick="layer.msg('您已被拉黑')"></li>
-    @elsecan()
+    @else
         <li class="layui-icon" lay-type="bar1" onclick="window.location.href='{{ url('/user/post/create') }}'"></li>
     @endcan
     @else
@@ -57,7 +55,6 @@
         }
     }
 </script>
-<script src="{{ asset('/assets/js/canvas.js') }}"></script>
 <script>
     $.ajaxSetup({
         headers:{

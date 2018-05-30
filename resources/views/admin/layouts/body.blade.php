@@ -17,19 +17,19 @@
                     <div class="layui-field-box">
                         <div style="display: inline-block; width: 100%;">
                             <div class="ht-box layui-bg-blue">
-                                <p>123</p>
+                                <p>{{ $users_count }}</p>
                                 <p>用户总数</p>
                             </div>
                             <div class="ht-box layui-bg-red">
-                                <p>32</p>
+                                <p>{{ count($todayReg) }}</p>
                                 <p>今日注册</p>
                             </div>
                             <div class="ht-box layui-bg-green">
-                                <p>55</p>
+                                <p>{{ count($todayLogin) }}</p>
                                 <p>今日登陆</p>
                             </div>
                             <div class="ht-box layui-bg-orange">
-                                <p>123</p>
+                                <p>{{ $posts_count }}</p>
                                 <p>帖子总数</p>
                             </div>
                         </div>

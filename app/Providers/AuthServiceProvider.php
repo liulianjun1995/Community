@@ -35,11 +35,12 @@ class AuthServiceProvider extends ServiceProvider
 
         //能发言
         \Gate::define('speak',function ($user){
-            return !!$user->isGag;
+            return $user->isGag;
         });
 
-        \Gate::define('defriend',function ($user){
-            return !!$user->isDefriend;
+        //没拉黑
+        \Gate::define('friend',function ($user){
+            return $user->isDefriend;
         });
 
     }

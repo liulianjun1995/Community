@@ -5,6 +5,15 @@
  * Date: 2018.5.16
  * Time: 16:52
  */
+//帖子
+Route::get('/admin/posts','Admin\PostController@postsList');
+Route::post('/admin/post/{post}/delPost','Admin\PostController@delPost');
+Route::post('/admin/post/{post}/setTop','Admin\PostController@setTop');
+Route::post('/admin/post/{post}/cancelTop','Admin\PostController@cancelTop');
+Route::post('/admin/post/{post}/setSticky','Admin\PostController@setSticky');
+Route::post('/admin/post/{post}/setSticky','Admin\PostController@setSticky');
+Route::post('/admin/post/{post}/cancelSticky','Admin\PostController@cancelSticky');
+Route::get('/admin/categoriesList','Admin\CategoryController@categoriesList');
 //用户
 Route::get('/admin','Admin\HomeController@index');
 Route::get('/admin/userList','Admin\UserController@userList');
@@ -14,7 +23,10 @@ Route::post('/admin/user/{user}/gag','Admin\UserController@gagUser');
 Route::post('/admin/user/{user}/cancelGag','Admin\UserController@cancelGagUser');
 Route::post('/admin/user/{user}/defriend','Admin\UserController@defriendUser');
 Route::post('/admin/user/{user}/cancelDefriend','Admin\UserController@cancelDefriendUser');
-
+//禁言管理
+Route::get('/admin/gagList','Admin\UserController@GagList');
+//黑名单
+Route::get('/admin/defriendList','Admin\UserController@defriendList');
 //管理员
 Route::get('/admin/adminList','Admin\AdminController@adminList');
 Route::get('/admin/adminUser/{adminUser}/role','Admin\AdminController@role');

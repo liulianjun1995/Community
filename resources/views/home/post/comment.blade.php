@@ -77,7 +77,7 @@
                     <button class="layui-btn" type="button"  onclick="layer.msg('您已被禁言')">提交回复</button>
                 @elsecan('defriend')
                     <button class="layui-btn" type="button"  onclick="layer.msg('您已被拉黑')">提交回复</button>
-                @elsecan('')
+                @else
                 <button class="layui-btn" lay-filter="reply" lay-submit>提交回复</button>                @endcan
             @else
                 <button class="layui-btn" type="button"  onclick="layer.msg('请先登录')">提交回复</button>

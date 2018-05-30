@@ -17,7 +17,7 @@
                                     <div class="layui-input-inline">
                                         <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
+                                    <div class="layui-form-mid layui-word-aux">您的登入名</div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label for="L_username" class="layui-form-label">昵称</label>
@@ -82,7 +82,6 @@
                     }
                 });
             }
-
             layui.use(['form'], function(){
                 var form = layui.form
                     ,layer = layui.layer
@@ -97,16 +96,15 @@
                 form.on('submit(reg)', function(){
                     var password = document.getElementById('L_pass').value;
                     var repassword = document.getElementById('L_repass').value;
-
+                    //验证两次密码
                     if  (password != repassword){
                         layer.msg('两次输入的密码不一致',{time:2000, shift: 6,icon:5});
                         return false;
                     }
-
+                    //FormData
                     var fm = document.getElementById('regForm');
-
                     var fd = new FormData(fm);
-
+                    //异步提交
                     $.ajax({
                         url:"/user/reg",
                         type:'post',
@@ -115,15 +113,15 @@
                         processData:false,
                         contentType:false,
                         success:function (res) {
-                            if(res==1){
-                                layer.msg('注册成功', {
+                            if(res == 1){
+                                layer.msg('注册成功,请前往邮箱激活账户！', {
                                     icon: 1
                                     ,time: 1000
                                     ,shade: 0.1
                                 }, function(){
                                     window.location.href="/";
                                 });
-                            }else if (res == 1){
+                            }else if (res == 0){
                                 layer.msg('注册失败，请重新操作', {
                                     icon: 2
                                     ,time: 1000
@@ -132,35 +130,39 @@
                                     refreshCaptcha();
                                 });
                             }else {
-                                var error = '';
-                                if(res.name != undefined){
-                                    error += res.name+'<br>';
-                                }
-                                if(res.email != undefined){
-                                    error += res.email+'<br>';
-                                }
-                                if(res.password != undefined){
-                                    error += res.password+'<br>';
-                                }
-                                if(res.captcha != undefined){
-                                    error += '验证码有误<br>';
-                                }
-                                layer.msg(error, {
-                                    time: 2500
-                                    ,shade: 0.2
+                                layer.msg('请求失败，请重试', {
+                                    icon: 2
+                                    ,time: 1000
+                                    ,shade: 0.1
+                                }, function(){
+                                    refreshCaptcha();
                                 });
-                                refreshCaptcha();
                             }
                         },
-                        error:function () {
-                            layer.msg('请求失败，请重试', function(){
-                                refreshCaptcha();
+                        error:function (res) {
+                            console.log(res);
+                            var error = '';
+                            if(res.responseJSON.errors.name != undefined){
+                                error += res.responseJSON.errors.name+'<br>';
+                            }
+                            if(res.responseJSON.errors.email != undefined){
+                                error += res.responseJSON.errors.email+'<br>';
+                            }
+                            if(res.responseJSON.errors.password != undefined){
+                                error += res.responseJSON.errors.password+'<br>';
+                            }
+                            if(res.responseJSON.errors.captcha != undefined){
+                                error += res.responseJSON.errors.captcha;
+                            }
+                            layer.msg(error, {
+                                time: 2500
+                                ,shade: 0.2
                             });
+                            refreshCaptcha();
                         }
 
                     });
                     event.preventDefault();
-
                 });
             });
         </script>

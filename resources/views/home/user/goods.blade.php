@@ -45,7 +45,6 @@
               font-size: 30px;
           }
 
-
       </style>
   <div class="fly-panel fly-panel-user">
     <div class="layui-tab layui-tab-brief">
@@ -135,6 +134,8 @@
               success:function (res) {
                   if (res.error == 0){
                       location.reload();
+                  }else{
+                      layer.msg(res.error);
                   }
               }
           });
